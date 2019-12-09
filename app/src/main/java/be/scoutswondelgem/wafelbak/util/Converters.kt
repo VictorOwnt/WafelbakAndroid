@@ -4,6 +4,8 @@ import androidx.room.*
 import java.util.*
 
 
+
+
 class Converters {
     @TypeConverter
     fun toDate(dateLong:Long): Date {
@@ -14,4 +16,5 @@ class Converters {
     fun fromDate(date: Date):Long{
         return date.time
     }
+
 }

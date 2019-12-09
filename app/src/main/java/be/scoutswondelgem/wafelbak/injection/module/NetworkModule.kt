@@ -3,6 +3,7 @@ package be.scoutswondelgem.wafelbak.injection.module
 import android.content.Context
 import be.scoutswondelgem.wafelbak.api.WafelbakApi
 import be.scoutswondelgem.wafelbak.database.WafelbakDatabase
+import be.scoutswondelgem.wafelbak.database.dataAccessObjects.OrderDao
 import be.scoutswondelgem.wafelbak.database.dataAccessObjects.UserDao
 import be.scoutswondelgem.wafelbak.util.Constants.BASE_URL
 //import com.squareup.moshi.Moshi
@@ -23,6 +24,13 @@ object NetworkModule {
     internal fun provideUserDataSource(context: Context): UserDao {
         val database = WafelbakDatabase.getInstance(context)
         return database.userDao()
+    }
+
+    @Singleton
+    @Provides
+    internal fun provideOrderDataSource(context: Context): OrderDao {
+        val database = WafelbakDatabase.getInstance(context)
+        return database.orderDao()
     }
 
     @Singleton

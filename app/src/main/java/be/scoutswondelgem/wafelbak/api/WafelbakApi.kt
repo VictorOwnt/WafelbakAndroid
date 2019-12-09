@@ -1,6 +1,6 @@
 package be.scoutswondelgem.wafelbak.api
 
-import be.scoutswondelgem.wafelbak.database.entities.User
+import be.scoutswondelgem.wafelbak.models.User
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*

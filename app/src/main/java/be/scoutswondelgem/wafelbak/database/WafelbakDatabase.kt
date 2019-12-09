@@ -6,7 +6,7 @@ import be.scoutswondelgem.wafelbak.database.dataAccessObjects.*
 import be.scoutswondelgem.wafelbak.database.entities.*
 import be.scoutswondelgem.wafelbak.util.Converters
 
-@Database(version = 1, entities = [User::class, Order::class], exportSchema = false)
+@Database(version = 1, entities = [DBUser::class, DBOrder::class], exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class WafelbakDatabase : RoomDatabase() {
 
