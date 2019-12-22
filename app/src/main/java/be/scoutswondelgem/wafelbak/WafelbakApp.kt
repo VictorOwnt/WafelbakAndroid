@@ -1,4 +1,9 @@
 package be.scoutswondelgem.wafelbak
 
-class WafelbakApp {
+import android.app.Application
+
+class WafelbakApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+    }
 }
