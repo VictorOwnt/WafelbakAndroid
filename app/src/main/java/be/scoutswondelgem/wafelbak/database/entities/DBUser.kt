@@ -1,56 +1,31 @@
 package be.scoutswondelgem.wafelbak.database.entities
 
-import androidx.room.*
-import be.scoutswondelgem.wafelbak.models.User
-import java.util.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import be.scoutswondelgem.wafelbak.models.Address
+import java.util.Date
 
 @Entity(tableName = "Users")
-data class DBUser (
+data class DbUser(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "UserId")
-    var id: Int,
-
-    @ColumnInfo(name = "FirstName")
-    var firstName: String,
-
-    @ColumnInfo(name = "LastName")
-    var lastName: String,
-
-    @ColumnInfo(name = "Email")
-    var email: String,
-
-    @ColumnInfo(name = "Admin")
-    var isAdmin: Boolean = false,
-
-    @ColumnInfo(name = "Birthday")
-    var birthday: Date,
-
+    @ColumnInfo(name="UserId")
+    val userId: Long = 0L,
+    @ColumnInfo(name="Voornaam")
+    val firstName: String,
+    @ColumnInfo(name="Achternaam")
+    val lastName: String,
+    @ColumnInfo(name="Email")
+    val email: String,
     @Embedded
-    var dbAddress: DBAddress,
-
-    @ColumnInfo(name = "Image")
-    var imgUrl: String?,
-
-    @ColumnInfo(name = "Orders")
-    var dbOrders: MutableList<DBOrder> = mutableListOf(),
-
-    @ColumnInfo(name = "Token")
-    var token: String?
+    val address: Address,
+    @ColumnInfo(name="Geboortedatum")
+    val birthday: Date,
+    /*
+    @ColumnInfo(name="AfbeeldingUrl")  // willen we afbeelding opslaan?
+    val imgUrl: String? = null,*/       // Salt en hash ? ==> nee? inloggen moet via internet?
+    @ColumnInfo(name="Admin")
+    val isAdmin: Boolean = false
 )
 
-fun List<DBUser>.asDomainModel(): List<User> {
-    return map{
-        User(
-            id = it.id,
-            firstName = it.firstName,
-            lastName = it.lastName,
-            email = it.email,
-            isAdmin = it.isAdmin,
-            birthday = it.birthday,
-            address = it.dbAddress.asDomainModel(),
-            imgUrl = it.imgUrl,
-            orders = it.dbOrders.asDomainModel().toMutableList(),
-            token = it.token
-        )
-    }
-}

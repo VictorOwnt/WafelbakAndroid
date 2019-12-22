@@ -2,19 +2,22 @@ package be.scoutswondelgem.wafelbak.database
 
 import android.content.Context
 import androidx.room.*
-import be.scoutswondelgem.wafelbak.database.dataAccessObjects.*
-import be.scoutswondelgem.wafelbak.database.entities.*
-import be.scoutswondelgem.wafelbak.util.Converters
+import be.scoutswondelgem.wafelbak.database.daos.OrderDao
+import be.scoutswondelgem.wafelbak.database.daos.UserDao
+import be.scoutswondelgem.wafelbak.database.daos.UserWithOrdersDao
+import be.scoutswondelgem.wafelbak.database.entities.DbOrder
+import be.scoutswondelgem.wafelbak.database.entities.DbUser
+import be.scoutswondelgem.wafelbak.util.DateConverter
 
-@Database(version = 1, entities = [DBUser::class, DBOrder::class], exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(entities = [DbUser::class, DbOrder::class], version = 1, exportSchema = false)
+@TypeConverters(DateConverter::class)
 abstract class WafelbakDatabase : RoomDatabase() {
 
-    abstract fun userDao(): UserDao
-    abstract fun orderDao(): OrderDao
+    abstract val orderDao: OrderDao // TODO geen functies?
+    abstract val userDao: UserDao
+    abstract val userWithOrdersDao: UserWithOrdersDao
 
     companion object {
-
         @Volatile
         private var INSTANCE: WafelbakDatabase? = null
 
@@ -26,7 +29,7 @@ abstract class WafelbakDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         WafelbakDatabase::class.java,
-                        "wafelbak_database"
+                        "WafelbakDatabase"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

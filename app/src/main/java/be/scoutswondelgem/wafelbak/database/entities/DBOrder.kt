@@ -1,38 +1,24 @@
 package be.scoutswondelgem.wafelbak.database.entities
 
-import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
-import be.scoutswondelgem.wafelbak.models.Order
-import java.util.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.Date
 
-@Entity(tableName = "Orders",
-    foreignKeys = [
-        ForeignKey(entity = DBUser::class,
-            parentColumns = ["UserId"],
-            childColumns = ["OrderId"],
-            onDelete = CASCADE)])
-data class DBOrder(
+@Entity(tableName = "Bestellingen")
+data class DbOrder(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name= "OrderId")
-    var id: Int,
-
-    @ColumnInfo(name = "Waffles")
-    var amountOfWaffles: Int,
-
-    @ColumnInfo(name = "DateOrdered")
-    var dateOrdered: Date,
-
-    @ColumnInfo(name = "DeliveryTime")
-    var desiredDeliveryTime: String
+    @ColumnInfo(name="OrderId")
+    val orderId: Long = 0L,
+    @ColumnInfo(name="Aantal_Wafels")
+    val amountOfWaffles: Int,
+    @ColumnInfo(name="Besteld_Op")
+    val dateOrdered: Date,
+    @ColumnInfo(name="Liefst_Leveren_Tegen")
+    val desiredDeliveryTime: String,
+    @ColumnInfo(name="Opmerkingen")
+    val comment: String? = null,
+    @ColumnInfo(name= "FK_UserId")
+    val userId: Long
 )
 
-fun List<DBOrder>.asDomainModel(): List<Order> {
-    return map{
-        Order(
-            id = it.id,
-            amountOfWaffles = it.amountOfWaffles,
-            dateOrdered = it.dateOrdered,
-            desiredDeliveryTime = it.desiredDeliveryTime
-        )
-    }
-}
