@@ -13,5 +13,6 @@ interface UserWithOrdersDao {
     fun getUserWithOrders(userId: Long): DbUserWithOrders?
 
     //TODO moet nog uitgest worden, moeten we geen querys schrijven met INNER JOIN?
+    // ZOJA ==> SCHRIJVEN MET FOREIGNKEY, OOK IN MYSQL
 
 }

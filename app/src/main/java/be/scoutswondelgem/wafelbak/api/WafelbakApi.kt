@@ -1,11 +1,48 @@
 package be.scoutswondelgem.wafelbak.api
 
+import be.scoutswondelgem.wafelbak.models.Order
 import be.scoutswondelgem.wafelbak.models.User
-import io.reactivex.Observable
-import io.reactivex.Single
+import retrofit2.Call
 import retrofit2.http.*
 
 interface WafelbakApi {
+
+    /**
+     * Gets all users
+     *
+     *
+     * @return list of all users
+     */
+    @GET("users/")
+    fun getUsers(): Call<List<User>>
+
+    /**
+     * Gets user by id
+     *
+     * @param id
+     * @return user
+     */
+    @GET("users/id/{id}")
+    fun getUserById(@Path("id") id: Integer): Call<User>
+
+    /**
+     * Gets user by email
+     *
+     * @param email
+     * @return user
+     */
+    @GET("users/{email}")
+    fun getUserByEmail(@Path("email") email: String): Call<User>
+
+    /**
+     * Checks is email is valid and unique
+     *
+     * @param email
+     * @return true if valid
+     */
+    @FormUrlEncoded
+    @POST("users/isValidEmail")
+    fun isValidEmail(@Field("email") email: String): Call<Boolean>
 
     /**
      * Signs in existing users
@@ -19,33 +56,57 @@ interface WafelbakApi {
     fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Single<User>
+    ): Call<User>
 
     /**
-     * Checks is email is valid and unique
+     * Gets all orders
      *
-     * @param email
-     * @return true if valid
-     */
-    @FormUrlEncoded
-    @POST("users/isValidEmail")
-    fun isValidEmail(@Field("email") email: String): Single<Boolean>
-
-    /**
-     * Gets user by email
      *
-     * @param email
-     * @return user
+     * @return list of all orders
      */
-    @GET("users/{email}")
-    fun getUserByEmail(@Path("email") email: String): Observable<User>
+    @GET("orders/")
+    fun getOrders(): Call<List<Order>>
 
     /**
-     * Gets user by id
+     * Gets order by id
      *
      * @param id
-     * @return user
+     * @return order
      */
-    @GET("users/id/{id}")
-    fun getUserById(@Path("id") id: String): Observable<User>
+    @GET("orders/id/{id}")
+    fun getOrderById(@Path("id") id: Integer): Call<Order>
+
+    /**
+     * Gets order by userId
+     *
+     * @param userId
+     * @return order
+     */
+    @GET("orders/byUserId/{id}")
+    fun getOrderByUserId(@Path("userId") userId: Integer): Call<Order>
+
+    /**
+     * Gets order by userEmail
+     *
+     * @param email
+     * @return order
+     */
+    @GET("orders/byUserMail/{email}")
+    fun getOrderByUserEmail(@Path("email") email: Integer): Call<Order>
+
+    /**
+     * Creates order
+     *
+     * @param amountOfWaffles
+     * @param desiredDeliveryTime
+     * @param comment
+     * @param userid
+     * @return order
+     */
+    @POST("orders/create")
+    fun createOrder(@Field("amountOfWaffles") amountOfWaffles: Integer,
+                    @Field("desiredDeliveryTime") desiredDeliveryTime: String,
+                    @Field("comment") comment: String,
+                    @Field("userid") userid: Integer): Call<Order>
+
 }

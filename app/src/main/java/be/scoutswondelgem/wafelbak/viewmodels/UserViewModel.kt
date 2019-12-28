@@ -2,24 +2,26 @@ package be.scoutswondelgem.wafelbak.viewmodels
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import be.scoutswondelgem.wafelbak.api.WafelbakApi
-import be.scoutswondelgem.wafelbak.base.BaseViewModel
-import be.scoutswondelgem.wafelbak.database.entities.User
-import com.orhanobut.logger.Logger
-import io.reactivex.disposables.CompositeDisposable
+import androidx.lifecycle.ViewModel
+import be.scoutswondelgem.wafelbak.models.User
+import be.scoutswondelgem.wafelbak.repository.UserRepository
+import kotlinx.coroutines.*
+import org.koin.dsl.module.module
 import retrofit2.HttpException
-import javax.inject.Inject
+import retrofit2.await
 import javax.security.auth.login.LoginException
 
-class UserViewModel : BaseViewModel() {
+val viewModelModule = module {
+    factory { UserViewModel(get()) }
+}
 
-    val user = MutableLiveData<User>()
+class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    //val user = MutableLiveData<User>()
     val loadingVisibility = MutableLiveData<Int>()
     val contentEnabled = MutableLiveData<Boolean>()
-
-    @Inject
-    lateinit var wafelbakApi: WafelbakApi
-    private var disposables = CompositeDisposable()
 
     init {
         loadingVisibility.value = View.GONE
@@ -33,38 +35,58 @@ class UserViewModel : BaseViewModel() {
      * @param password
      * @return user with token
      */
-    fun login(email: String, password: String): User {
+    suspend fun login(email: String, password: String): User {
         try {
             onRetrieveStart()
-            return wafelbakApi.login(email, password)
-                .doOnError { error -> onRetrieveError(error) }
-                .blockingGet()
+            return withContext(Dispatchers.IO) {
+                userRepository.login(email, password).await()
+            }
 
         } catch (e: Exception) {
             throw LoginException((e as HttpException).response()!!.errorBody()!!.string())
         } finally {
-            onRetrieveFinish()
+            onRetrieveStop()
         }
     }
 
-    private fun onRetrieveError(error: Throwable) {
-        Logger.e(error.message!!)
+    /*
+    fun getUsers(): Observable<List<User>> {
+        try {
+            onRetrieveStart()
+            return kolvApi.getUsers()
+
+        } catch (e: Exception) {
+            throw java.lang.Exception((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+
     }
+
+    fun getClients(): Observable<List<User>> {
+        try {
+            onRetrieveStart()
+            return kolvApi.getClients()
+
+        } catch (e: Exception) {
+            throw java.lang.Exception((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+
+    }
+     */
 
     private fun onRetrieveStart() {
         loadingVisibility.value = View.VISIBLE
     }
 
-    private fun onRetrieveFinish() {
+    private fun onRetrieveStop() {
         loadingVisibility.value = View.GONE
     }
 
-    /**
-     * Disposes the subscription when the [BaseViewModel] is no longer used.
-     */
     override fun onCleared() {
         super.onCleared()
-        disposables.clear()
+        viewModelJob.cancel()
     }
-
 }
