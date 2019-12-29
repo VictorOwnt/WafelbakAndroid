@@ -2,21 +2,24 @@ package be.scoutswondelgem.wafelbak.database.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import be.scoutswondelgem.wafelbak.database.entities.DbUser
+import be.scoutswondelgem.wafelbak.models.User
 
 @Dao
 interface UserDao {
     @Insert
-    fun insert(user: DbUser)
+    fun insert(user: User)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun autoUpdate(users: List<User>)
 
     @Update
-    fun update(user: DbUser)
+    fun update(user: User)
 
     @Query("SELECT * from Users")
-    fun getAllUsers(): LiveData<List<DbUser>>
+    fun getAllUsers(): LiveData<List<User>>
 
-    @Query("SELECT * FROM Users WHERE Email =:mail")
-    fun getUserByEmail(mail: String): DbUser?
+    @Query("SELECT * FROM Users WHERE email =:mail")
+    fun getUserByEmail(mail: String): User?
 
     @Query("SELECT COUNT(*) FROM Users")
     fun getRowCount(): Int
@@ -25,6 +28,6 @@ interface UserDao {
     fun clearTable()
 
     @Delete
-    fun deleteUser(user: DbUser)
+    fun deleteUser(user: User)
 
 }

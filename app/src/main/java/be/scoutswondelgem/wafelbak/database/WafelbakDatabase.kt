@@ -4,18 +4,16 @@ import android.content.Context
 import androidx.room.*
 import be.scoutswondelgem.wafelbak.database.daos.OrderDao
 import be.scoutswondelgem.wafelbak.database.daos.UserDao
-import be.scoutswondelgem.wafelbak.database.daos.UserWithOrdersDao
-import be.scoutswondelgem.wafelbak.database.entities.DbOrder
-import be.scoutswondelgem.wafelbak.database.entities.DbUser
-import be.scoutswondelgem.wafelbak.util.DateConverter
+import be.scoutswondelgem.wafelbak.models.Order
+import be.scoutswondelgem.wafelbak.models.User
+import be.scoutswondelgem.wafelbak.util.Converters
 
-@Database(entities = [DbUser::class, DbOrder::class], version = 1, exportSchema = false)
-@TypeConverters(DateConverter::class)
+@Database(entities = [User::class, Order::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class WafelbakDatabase : RoomDatabase() {
 
-    abstract val orderDao: OrderDao // TODO geen functies?
+    abstract val orderDao: OrderDao
     abstract val userDao: UserDao
-    abstract val userWithOrdersDao: UserWithOrdersDao
 
     companion object {
         @Volatile

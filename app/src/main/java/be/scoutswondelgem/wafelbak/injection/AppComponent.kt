@@ -1,6 +1,6 @@
 package be.scoutswondelgem.wafelbak.injection
 
-import be.scoutswondelgem.wafelbak.injection.modules.networkModule
+import be.scoutswondelgem.wafelbak.injection.modules.*
 import org.koin.dsl.module.Module
 
-val appComponent: List<Module> = listOf(networkModule /*viewModelModule, repositoryModule, sharedPreferencesModule*/)
+val appComponent: List<Module> = listOf(networkModule, viewModelModule, repositoryModule, sharedPreferencesModule, databaseModule)

@@ -1,7 +1,7 @@
 package be.scoutswondelgem.wafelbak.ui
 
-import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,22 +21,30 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 import javax.security.auth.login.LoginException
 import kotlin.coroutines.CoroutineContext
 
-class LoginFragment: Fragment(), CoroutineScope {
+class LoginFragment : Fragment(), CoroutineScope { // TODO SKIP COROUTINES EN GEBRUIK RXJAVA!
+    
+    //Ui elementen:
     private lateinit var signinButton: Button
     private lateinit var emailInput: TextInputEditText
     private lateinit var emailInputLayout: TextInputLayout
     private lateinit var passwordInput: TextInputEditText
     private lateinit var passwordInputLayout: TextInputLayout
 
-    private val userViewModel by viewModel<UserViewModel>()
-
+    //Coroutines:
+    private var loginJob: Job()
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
+        get() = loginJob + Dispatchers.Main
+
+    //Injecteren:
+    private val userViewModel by viewModel<UserViewModel>()
+    private val sharedPreferences: SharedPreferences = get()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,18 +69,15 @@ class LoginFragment: Fragment(), CoroutineScope {
 
         // OnClickListener sign in button
         signinButton.setOnClickListener {
-            try {
-                launch {
+            launch {
+                try {
                     var loggedInUser = userViewModel.login(
                         emailInput.text.toString(),
                         passwordInput.text.toString()
+
                     )
 
                     // Save logged in user
-                    val sharedPreferences = activity!!.getSharedPreferences(
-                        SharedPreferencesEnum.PREFNAME.toString(),
-                        Context.MODE_PRIVATE
-                    )
                     sharedPreferences.edit()
                         .putString(SharedPreferencesEnum.ID.string, loggedInUser.userId.toString())
                         .putString(SharedPreferencesEnum.EMAIL.string, loggedInUser.email)
@@ -84,16 +89,13 @@ class LoginFragment: Fragment(), CoroutineScope {
                             SharedPreferencesEnum.TOKEN.string,
                             "Bearer " + loggedInUser.token
                         )
-                        .putBoolean(SharedPreferencesEnum.PREFNAME.string, true)
-                        .apply()
-
+                        .putBoolean(SharedPreferencesEnum.PREFNAME.string, true).apply()
                     // Open MainActivity
                     val intent = Intent(activity, MainActivity::class.java)
                     startActivity(intent)
                     (activity as AuthActivity).hideKeyboard()
                     activity!!.finish()
-                }
-            } catch (e: LoginException) {
+                } catch (e: LoginException) {
                     (activity as AuthActivity).hideKeyboard()
                     AlertDialog.Builder(context!!)
                         .setTitle("Something went wrong")
@@ -101,7 +103,8 @@ class LoginFragment: Fragment(), CoroutineScope {
                         .setPositiveButton(android.R.string.ok, null)
                         .setIcon(R.drawable.ic_error)
                         .show()
-                    }
+                }
+            }
         }
 
         // TextWatchers
@@ -122,5 +125,10 @@ class LoginFragment: Fragment(), CoroutineScope {
             val nonBlank = !(emailInput.text.isNullOrBlank() || passwordInput.text.isNullOrBlank())
             signinButton.isEnabled = nonBlank
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        loginJob.cancel()
     }
 }

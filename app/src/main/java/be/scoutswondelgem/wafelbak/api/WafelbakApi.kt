@@ -2,7 +2,6 @@ package be.scoutswondelgem.wafelbak.api
 
 import be.scoutswondelgem.wafelbak.models.Order
 import be.scoutswondelgem.wafelbak.models.User
-import retrofit2.Call
 import retrofit2.http.*
 
 interface WafelbakApi {
@@ -14,7 +13,7 @@ interface WafelbakApi {
      * @return list of all users
      */
     @GET("users/")
-    fun getUsers(): Call<List<User>>
+    suspend fun getUsers(): List<User>
 
     /**
      * Gets user by id
@@ -23,7 +22,7 @@ interface WafelbakApi {
      * @return user
      */
     @GET("users/id/{id}")
-    fun getUserById(@Path("id") id: Integer): Call<User>
+    suspend fun getUserById(@Path("id") id: Int): User
 
     /**
      * Gets user by email
@@ -32,7 +31,7 @@ interface WafelbakApi {
      * @return user
      */
     @GET("users/{email}")
-    fun getUserByEmail(@Path("email") email: String): Call<User>
+    suspend fun getUserByEmail(@Path("email") email: String): User
 
     /**
      * Checks is email is valid and unique
@@ -42,7 +41,7 @@ interface WafelbakApi {
      */
     @FormUrlEncoded
     @POST("users/isValidEmail")
-    fun isValidEmail(@Field("email") email: String): Call<Boolean>
+    suspend fun isValidEmail(@Field("email") email: String): Boolean
 
     /**
      * Signs in existing users
@@ -53,10 +52,10 @@ interface WafelbakApi {
      */
     @FormUrlEncoded
     @POST("users/login")
-    fun login(
+    suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Call<User>
+    ): User
 
     /**
      * Gets all orders
@@ -65,7 +64,7 @@ interface WafelbakApi {
      * @return list of all orders
      */
     @GET("orders/")
-    fun getOrders(): Call<List<Order>>
+    suspend fun getOrders(): List<Order>
 
     /**
      * Gets order by id
@@ -74,7 +73,7 @@ interface WafelbakApi {
      * @return order
      */
     @GET("orders/id/{id}")
-    fun getOrderById(@Path("id") id: Integer): Call<Order>
+    suspend fun getOrderById(@Path("id") id: Int): Order
 
     /**
      * Gets order by userId
@@ -83,7 +82,7 @@ interface WafelbakApi {
      * @return order
      */
     @GET("orders/byUserId/{id}")
-    fun getOrderByUserId(@Path("userId") userId: Integer): Call<Order>
+    suspend fun getOrderByUserId(@Path("userId") userId: Int): Order
 
     /**
      * Gets order by userEmail
@@ -92,7 +91,7 @@ interface WafelbakApi {
      * @return order
      */
     @GET("orders/byUserMail/{email}")
-    fun getOrderByUserEmail(@Path("email") email: Integer): Call<Order>
+    suspend fun getOrderByUserEmail(@Path("email") email: Int): Order
 
     /**
      * Creates order
@@ -104,9 +103,9 @@ interface WafelbakApi {
      * @return order
      */
     @POST("orders/create")
-    fun createOrder(@Field("amountOfWaffles") amountOfWaffles: Integer,
+    suspend fun createOrder(@Field("amountOfWaffles") amountOfWaffles: Int,
                     @Field("desiredDeliveryTime") desiredDeliveryTime: String,
                     @Field("comment") comment: String,
-                    @Field("userid") userid: Integer): Call<Order>
+                    @Field("userid") userid: Int): Order
 
 }

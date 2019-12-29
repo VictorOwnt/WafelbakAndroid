@@ -11,11 +11,6 @@ import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-/*val viewModelModule = module {
-    viewModel { UserViewModel(get()) }
-    viewModel { DayViewModel(get()) }
-}*/
-
 val networkModule = module {
     factory { provideOkHttpClient(get()) }
     factory { provideWafelbakApi(get()) }
@@ -81,21 +76,3 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
 fun provideWafelbakApi(retrofit: Retrofit): WafelbakApi {
     return retrofit.create(WafelbakApi::class.java)
 }
-
-/*
-val repositoryModule = module {
-    fun provideKolvRepository(api: KolvApi/*, dao: KolvDao*/): KolvRepository {
-        return KolvRepository(api/*, dao*/)
-    }
-
-    factory { provideKolvRepository(get()/*, get()*/) }
-}
-
-val sharedPreferencesModule = module {
-
-    fun provideSharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(SharedPreferencesEnum.PREFNAME.toString(), Context.MODE_PRIVATE)
-    }
-
-    single { provideSharedPreferences(get()) }
-}*/
