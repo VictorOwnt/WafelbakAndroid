@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import be.scoutswondelgem.wafelbak.models.User
 import be.scoutswondelgem.wafelbak.repository.UserRepository
-import kotlinx.coroutines.*
+import com.orhanobut.logger.Logger
+import io.reactivex.disposables.CompositeDisposable
 import retrofit2.HttpException
+import javax.security.auth.login.LoginException
 
 
 class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -14,26 +16,29 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
     val loadingVisibility = MutableLiveData<Int>()
     val contentEnabled = MutableLiveData<Boolean>()
 
-    //CoroutineContext: MOMENTEEL ONGEBRUIKT
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+    //RxJava
+    private var disposables = CompositeDisposable()
 
     init {
         loadingVisibility.value = View.GONE
         contentEnabled.value = true
     }
 
-    suspend fun login(email: String, password: String): User {
+    fun login(email: String, password: String): User {
         try{
             onRetrieveStart()
-            return withContext(Dispatchers.IO) {
-                return@withContext userRepository.login(email, password)
-            }
+            return userRepository.login(email, password)
+                .doOnError { error -> onRetrieveError(error) }
+                .blockingGet()
         } catch (e: Exception) {
-            throw java.lang.Exception((e as HttpException).response()!!.errorBody()!!.string())
+            throw LoginException((e as HttpException).response()!!.errorBody()!!.string())
         } finally {
             onRetrieveFinish()
         }
+    }
+
+    private fun onRetrieveError(error: Throwable) {
+        Logger.e(error.message!!)
     }
 
     private fun onRetrieveStart() {
@@ -47,6 +52,6 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
+        disposables.clear()
     }
 }

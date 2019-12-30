@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">Wafelbak</string>
+    <string name="app_name">WafelbakApp</string>
     <string name="navigation_drawer_open">Open</string>
-    <string name="navigation_drawer_close">Close</string>
+    <string name="navigation_drawer_close">Sluiten</string>
     <string name="required">Vereist</string>
+    <string name="action_sign_in">Aanmelden</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Wachtwoord</string>
+    <string name="menu">Menu</string>
+    <string name="fullName">Victor Van hulle</string>
+    <string name="email">vanhulle.victor@gmail.com</string>
+    <string name="addOrder">Bestelling toevoegen</string>
+    <string name="allOrders">Alle bestellingen weergeven</string>
+    <string name="account">Account</string>
+    <string name="nav_orders">Bestellingen</string>
+    <string name="nav_edit_profile">Accountgegevens aanpassen</string>
+    <string name="nav_logout">Afmelden</string>
 </resources>

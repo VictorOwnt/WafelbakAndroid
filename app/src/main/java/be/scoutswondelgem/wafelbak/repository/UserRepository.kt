@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import be.scoutswondelgem.wafelbak.api.WafelbakApi
 import be.scoutswondelgem.wafelbak.database.daos.UserDao
 import be.scoutswondelgem.wafelbak.models.User
+import io.reactivex.Single
 
 class UserRepository(private val wafelbakApi: WafelbakApi, private val userDao: UserDao) {
     //Data:
     val data: LiveData<List<User>> = userDao.getAllUsers()
 
-    suspend fun login(email: String, password: String): User {
+    fun login(email: String, password: String): Single<User> {
         return wafelbakApi.login(email, password)
     }
 

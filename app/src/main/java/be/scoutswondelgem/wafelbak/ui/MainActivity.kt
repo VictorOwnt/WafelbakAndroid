@@ -8,12 +8,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import be.scoutswondelgem.wafelbak.R
-import be.scoutswondelgem.wafelbak.util.SharedPreferencesEnum
 import com.google.android.material.navigation.NavigationView
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -24,37 +23,37 @@ import org.koin.android.ext.android.get
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    //Injecteren
+    //Injecteren:
     private val sharedPreferences: SharedPreferences = get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
 
         // Check is user is logged in
-        if (!sharedPreferences.getBoolean(SharedPreferencesEnum.ISLOGGEDIN.string, false)) {
+        if (!sharedPreferences.getBoolean("ISLOGGEDIN", false)) {
             // Open AuthActivity
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             finish()
         }
-
         setContentView(R.layout.activity_main)
-        val toolbar = this.toolbar
+
+        //Toolbar menu
         setSupportActionBar(toolbar)
 
-        val drawerLayout = this.drawer_layout
-        val navView =  this.nav_view
+        //MenuDrawer
         val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar,
+            this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        drawerLayout.addDrawerListener(toggle)
+        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         // Setup navHeader
-        val headerView = navView.getHeaderView(0)
+        val headerView = nav_view.getHeaderView(0)
         val navHeaderImage = headerView.nav_header_image //TODO image nodig?
         val navHeaderName = headerView.nav_header_name
         val navHeaderEmail = headerView.nav_header_email
@@ -78,16 +77,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .into(navHeaderImage)
          */
         // Load name
-        navHeaderName.text = (sharedPreferences.getString(SharedPreferencesEnum.FIRSTNAME.string, getString(R.string.app_name)) + " " +
-                sharedPreferences.getString(SharedPreferencesEnum.LASTNAME.string, ""))
+        navHeaderName.text = (sharedPreferences.getString("FIRSTNAME", getString(R.string.app_name)) + " " +
+                sharedPreferences.getString("LASTNAME", ""))
         // Load email
-        navHeaderEmail.text = sharedPreferences.getString(SharedPreferencesEnum.EMAIL.string, "")
+        navHeaderEmail.text = sharedPreferences.getString("EMAIL", "")
 
-        navView.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(this)
         if (savedInstanceState == null) {
             // Check the first item in the navigation menu
-            //navView.menu.findItem(R.id.action_actie1).isChecked = true
-            //navView.menu.performIdentifierAction(R.id.action_actie1, 0)
+            nav_view.menu.findItem(R.id.nav_orders).isChecked = true
+            nav_view.menu.performIdentifierAction(R.id.nav_orders, 0)
         }
 
         // Set logger
@@ -97,9 +96,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        val drawerLayout = this.drawer_layout
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -116,8 +114,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button.
         when (item.itemId) {
-            R.id.action_actie2 -> {
-                /*
+           /* R.id.action_actie2 -> {
                 // Get date to show
 
 
@@ -145,15 +142,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
 
                 }, year, month, day)
-                datePickerDialog.show() */
-            }
-            R.id.action_actie1 -> {
+                datePickerDialog.show()
+            }*/
+            R.id.action_allOrders -> {      //TODO only visible for admins
             /*
                 setContentView(R.layout.user_list)
 
                 fillListView()
                 main_content_container.visibility = View.GONE
              */
+                // Logout
+                sharedPreferences.edit().clear().apply()
+                // Open AuthActivity
+                val intent = Intent(this, AuthActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
 
@@ -165,13 +168,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         // Handle navigation view item clicks.
 
-        when (item.itemId) {/*
-            R.id.nav_calendar -> openDetailFragment(
-                DateSelectorFragment.newInstance(
-                    DateTime.now(),
-                    sharedPreferences.getString(SharedPreferencesEnum.ID.string, "")!!
-                )
-            )*/
+        when (item.itemId) {
+            R.id.nav_orders -> {
+                openDetailFragment(
+                OrderFragment.newInstance(sharedPreferences.getString("ID", "")!!))
+            }
+            R.id.nav_edit_profile -> {
+            // Logout
+            sharedPreferences.edit().clear().apply()
+            // Open AuthActivity
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
             R.id.nav_logout -> {
                 // Logout
                 sharedPreferences.edit().clear().apply()
@@ -181,11 +190,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 finish()
             }
         }
-        val drawerLayout = this.drawer_layout
-        drawerLayout.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
-    /*
+
     private fun openDetailFragment(newFragment: Fragment) {
         this.supportFragmentManager
             .beginTransaction()
@@ -194,7 +202,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .addToBackStack(null)
             .commit()
 
-    }*/
+    }
 }
 
 

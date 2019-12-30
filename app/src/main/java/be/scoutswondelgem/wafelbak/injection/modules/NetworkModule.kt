@@ -5,11 +5,15 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import be.scoutswondelgem.wafelbak.api.WafelbakApi
 import be.scoutswondelgem.wafelbak.util.Constants
+import be.scoutswondelgem.wafelbak.util.DateAdapter
+import com.squareup.moshi.Moshi
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 val networkModule = module {
     factory { provideOkHttpClient(get()) }
@@ -69,8 +73,13 @@ fun provideOkHttpClient(context: Context): OkHttpClient {
 }
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    val moshi = Moshi.Builder()
+        .add(DateAdapter())
+        .build()
+
     return Retrofit.Builder().baseUrl(Constants.API_URL).client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create()).build()
+        .addConverterFactory(MoshiConverterFactory.create(moshi)).addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(
+            Schedulers.io())).build()
 }
 
 fun provideWafelbakApi(retrofit: Retrofit): WafelbakApi {

@@ -15,17 +15,5 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
-    <View
-        android:id="@+id/dividerTwoPane"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="?android:attr/listDivider"
-        />
-
-    <FrameLayout
-        android:id="@+id/main_detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
 </LinearLayout>
 </layout>

@@ -2,6 +2,8 @@ package be.scoutswondelgem.wafelbak.api
 
 import be.scoutswondelgem.wafelbak.models.Order
 import be.scoutswondelgem.wafelbak.models.User
+import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.*
 
 interface WafelbakApi {
@@ -13,7 +15,7 @@ interface WafelbakApi {
      * @return list of all users
      */
     @GET("users/")
-    suspend fun getUsers(): List<User>
+    fun getUsers(): Observable<List<User>>
 
     /**
      * Gets user by id
@@ -22,7 +24,7 @@ interface WafelbakApi {
      * @return user
      */
     @GET("users/id/{id}")
-    suspend fun getUserById(@Path("id") id: Int): User
+    fun getUserById(@Path("id") id: Int): Single<User>
 
     /**
      * Gets user by email
@@ -31,7 +33,7 @@ interface WafelbakApi {
      * @return user
      */
     @GET("users/{email}")
-    suspend fun getUserByEmail(@Path("email") email: String): User
+    fun getUserByEmail(@Path("email") email: String): Single<User>
 
     /**
      * Checks is email is valid and unique
@@ -41,7 +43,7 @@ interface WafelbakApi {
      */
     @FormUrlEncoded
     @POST("users/isValidEmail")
-    suspend fun isValidEmail(@Field("email") email: String): Boolean
+    fun isValidEmail(@Field("email") email: String): Single<Boolean>
 
     /**
      * Signs in existing users
@@ -52,10 +54,10 @@ interface WafelbakApi {
      */
     @FormUrlEncoded
     @POST("users/login")
-    suspend fun login(
+    fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): User
+    ): Single<User>
 
     /**
      * Gets all orders
@@ -64,7 +66,7 @@ interface WafelbakApi {
      * @return list of all orders
      */
     @GET("orders/")
-    suspend fun getOrders(): List<Order>
+    fun getOrders(): Observable<List<Order>>
 
     /**
      * Gets order by id
@@ -73,25 +75,25 @@ interface WafelbakApi {
      * @return order
      */
     @GET("orders/id/{id}")
-    suspend fun getOrderById(@Path("id") id: Int): Order
+    fun getOrderById(@Path("id") id: Int): Single<Order>
 
     /**
-     * Gets order by userId
+     * Gets orders by userId
      *
      * @param userId
      * @return order
      */
     @GET("orders/byUserId/{id}")
-    suspend fun getOrderByUserId(@Path("userId") userId: Int): Order
+    fun getOrdersByUserId(@Path("userId") userId: Int): Observable<List<Order>>
 
     /**
-     * Gets order by userEmail
+     * Gets orders by userEmail
      *
      * @param email
      * @return order
      */
     @GET("orders/byUserMail/{email}")
-    suspend fun getOrderByUserEmail(@Path("email") email: Int): Order
+    fun getOrdersByUserEmail(@Path("email") email: Int): Observable<List<Order>>
 
     /**
      * Creates order
@@ -102,10 +104,11 @@ interface WafelbakApi {
      * @param userid
      * @return order
      */
+    @FormUrlEncoded
     @POST("orders/create")
-    suspend fun createOrder(@Field("amountOfWaffles") amountOfWaffles: Int,
+    fun createOrder(@Field("amountOfWaffles") amountOfWaffles: Int,
                     @Field("desiredDeliveryTime") desiredDeliveryTime: String,
                     @Field("comment") comment: String,
-                    @Field("userid") userid: Int): Order
+                    @Field("userid") userid: Int): Single<Order>
 
 }
