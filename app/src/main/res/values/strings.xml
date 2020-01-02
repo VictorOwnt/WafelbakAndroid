@@ -15,4 +15,9 @@
     <string name="nav_orders">Bestellingen</string>
     <string name="nav_edit_profile">Accountgegevens aanpassen</string>
     <string name="nav_logout">Afmelden</string>
+    <string name="orders">Bestellingen</string>
+    <string name="orderId">OrderID:</string>
+    <string name="amountOfWaffles">Aantal wafels:</string>
+    <string name="desiredDeliveryTime">Gewenste levertijd:</string>
+    <string name="edit">Aanpassen</string>
 </resources>

@@ -5,7 +5,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import be.scoutswondelgem.wafelbak.api.WafelbakApi
 import be.scoutswondelgem.wafelbak.util.Constants
-import be.scoutswondelgem.wafelbak.util.DateAdapter
+import be.scoutswondelgem.wafelbak.adapters.DateAdapter
+import be.scoutswondelgem.wafelbak.adapters.DeliveryTimeAdapter
 import com.squareup.moshi.Moshi
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
@@ -75,6 +76,7 @@ fun provideOkHttpClient(context: Context): OkHttpClient {
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     val moshi = Moshi.Builder()
         .add(DateAdapter())
+        .add(DeliveryTimeAdapter())
         .build()
 
     return Retrofit.Builder().baseUrl(Constants.API_URL).client(okHttpClient)

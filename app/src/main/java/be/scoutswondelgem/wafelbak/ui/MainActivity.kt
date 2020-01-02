@@ -106,6 +106,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+        if (!sharedPreferences.getBoolean("ADMIN", false)) {
+            val item = menu.findItem(R.id.action_allOrders)
+            item.isVisible = false
+            invalidateOptionsMenu()
+        }
         return true
     }
 
@@ -144,19 +149,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }, year, month, day)
                 datePickerDialog.show()
             }*/
-            R.id.action_allOrders -> {      //TODO only visible for admins
+            R.id.action_allOrders -> {
             /*
                 setContentView(R.layout.user_list)
 
                 fillListView()
                 main_content_container.visibility = View.GONE
              */
-                // Logout
-                sharedPreferences.edit().clear().apply()
-                // Open AuthActivity
-                val intent = Intent(this, AuthActivity::class.java)
-                startActivity(intent)
-                finish()
             }
         }
 
@@ -171,7 +170,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_orders -> {
                 openDetailFragment(
-                OrderFragment.newInstance(sharedPreferences.getString("ID", "")!!))
+                OrderFragment.newInstance()) //sharedPreferences.getString("ID", "")!!
             }
             R.id.nav_edit_profile -> {
             // Logout

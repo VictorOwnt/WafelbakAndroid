@@ -73,7 +73,8 @@ class LoginFragment : Fragment() {
                         //.putString(SharedPreferencesEnum.IMGURL.string, loggedInUser.imgUrl)
                         .putBoolean("ADMIN", loggedInUser.isAdmin)
                         .putString("TOKEN", "Bearer " + loggedInUser.token)
-                        .putBoolean("ISLOGGEDIN", true).apply()
+                        .putBoolean("ISLOGGEDIN", true)
+                        .putString("PREFNAME", loggedInUser.firstName + loggedInUser.userId.toString() + loggedInUser.lastName).apply()
                     // Open MainActivity
                     val intent = Intent(activity, MainActivity::class.java)
                     startActivity(intent)

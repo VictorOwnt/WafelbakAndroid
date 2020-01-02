@@ -17,15 +17,15 @@ class Converters {
 
     @TypeConverter
     fun deliveryDateToDatabase(deliveryDate: DeliveryDate): String {
-        return deliveryDate.toString()
+        return deliveryDate.levertijd
     }
 
     @TypeConverter
     fun fromDatabase(value: String?): DeliveryDate? {
         when(value) {
-            DeliveryDate.AVOND.levertijd -> return DeliveryDate.AVOND
-            DeliveryDate.VOORMIDDAG.levertijd -> return DeliveryDate.VOORMIDDAG
-            DeliveryDate.NAMIDDAG.levertijd -> return DeliveryDate.NAMIDDAG
+            "Voor 12u" -> return DeliveryDate.AVOND
+            "Na 16u" -> return DeliveryDate.VOORMIDDAG
+            "Tussen 13u en 16u" -> return DeliveryDate.NAMIDDAG
             else -> return null
         }
     }

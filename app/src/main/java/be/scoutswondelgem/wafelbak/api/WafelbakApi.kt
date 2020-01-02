@@ -80,11 +80,12 @@ interface WafelbakApi {
     /**
      * Gets orders by userId
      *
+     * @param authToken
      * @param userId
      * @return order
      */
-    @GET("orders/byUserId/{id}")
-    fun getOrdersByUserId(@Path("userId") userId: Int): Observable<List<Order>>
+    @GET("orders/byUserId/{userId}")
+    fun getOrdersByUserId(@Header("Authorization") authToken: String, @Path("userId") userId: Int): Observable<List<Order>>
 
     /**
      * Gets orders by userEmail

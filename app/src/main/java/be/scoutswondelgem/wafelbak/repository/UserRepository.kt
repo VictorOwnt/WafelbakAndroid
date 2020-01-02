@@ -14,7 +14,7 @@ class UserRepository(private val wafelbakApi: WafelbakApi, private val userDao: 
         return wafelbakApi.login(email, password)
     }
 
-    // fun isValidEmail(email: String) = wafelbakApi.isValidEmail(email)
+    // fun isValidEmail(email: String) = wafelbakApi.isValidEmail(email) // volgens mij kan dit zelf compleet uit de applicatie
     // suspend fun getUsers() = wafelbakApi.getUsers()
     // suspend fun getUserByEmail(email: String) = wafelbakApi.getUserByEmail(email)
 }

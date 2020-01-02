@@ -1,4 +1,4 @@
-package be.scoutswondelgem.wafelbak.util
+package be.scoutswondelgem.wafelbak.adapters
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
