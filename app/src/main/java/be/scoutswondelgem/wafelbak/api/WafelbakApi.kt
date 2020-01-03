@@ -121,6 +121,6 @@ interface WafelbakApi {
      * @return order
      */
     @PATCH("orders/id/patch")
-    fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Array<Int>>
+    fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
 
 }

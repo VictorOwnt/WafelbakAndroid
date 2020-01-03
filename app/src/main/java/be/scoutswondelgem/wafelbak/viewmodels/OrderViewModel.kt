@@ -66,7 +66,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    fun updateOrder(authToken: String, order: Order): Array<Int> {
+    fun updateOrder(authToken: String, order: Order): Order {
         try {
             onRetrieveStart()
             return orderRepository.updateOrder(authToken, order)

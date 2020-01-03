@@ -135,7 +135,7 @@ class EditOrderFragment: Fragment() {
             commentInput.setText("")
         }
 
-        saveButton.setOnClickListener {//TODO terugkeren naar overzicht
+        saveButton.setOnClickListener {//TODO passende toast melding en terugkeren naar vorige scherm
             when (amountOfWafflesGroup.checkedChipId) {
                 twoWafflesChip.id -> order.amountOfWaffles = 2
                 fourWafflesChip.id -> order.amountOfWaffles = 4

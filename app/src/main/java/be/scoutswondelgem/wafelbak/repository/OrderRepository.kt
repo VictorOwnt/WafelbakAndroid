@@ -19,7 +19,7 @@ class OrderRepository(private val wafelbakApi: WafelbakApi, private val orderDao
         return wafelbakApi.getOrderById(authToken, id)
     }
 
-    fun updateOrder(authToken: String, order : Order ): Single<Array<Int>> {
+    fun updateOrder(authToken: String, order : Order ): Single<Order> {
         return wafelbakApi.updateOrder(authToken, order)
     }
 }
