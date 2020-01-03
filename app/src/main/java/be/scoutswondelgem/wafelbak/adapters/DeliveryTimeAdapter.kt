@@ -13,9 +13,10 @@ class DeliveryTimeAdapter {
     @FromJson
     internal fun fromJson(json: String): DeliveryDate? {
         when(json) {
-            "Voor 12u" -> return DeliveryDate.AVOND
-            "Na 16u" -> return DeliveryDate.VOORMIDDAG
+            "Voor 12u" -> return DeliveryDate.VOORMIDDAG
+            "Na 16u" -> return DeliveryDate.AVOND
             "Tussen 13u en 16u" -> return DeliveryDate.NAMIDDAG
+            "Het maakt niet uit" -> return DeliveryDate.MAAKTNIETUIT
             else -> return null
         }
     }

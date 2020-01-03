@@ -74,6 +74,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:id="@+id/inputlayout_password"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_password"
@@ -81,7 +82,6 @@
                         android:layout_marginStart="@dimen/default_horizontal_margin"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginEnd="@dimen/default_horizontal_margin"
-                        android:id="@+id/inputlayout_password"
                         app:layout_constraintTop_toBottomOf="@+id/inputlayout_email"
                         android:layout_marginTop="@dimen/default_vertical_margin"
                         android:layout_marginBottom="@dimen/default_vertical_margin"
@@ -109,6 +109,7 @@
                 android:layout_marginBottom="@dimen/default_vertical_margin"
                 android:enabled="false"
                 android:text="@string/action_sign_in"
+                android:backgroundTint="@color/colorSave"
                 app:cornerRadius="200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

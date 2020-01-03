@@ -20,4 +20,20 @@
     <string name="amountOfWaffles">Aantal wafels:</string>
     <string name="desiredDeliveryTime">Gewenste levertijd:</string>
     <string name="edit">Aanpassen</string>
+    <string name="remove">Verwijderen</string>
+    <string name="order">Bestelling</string>
+    <string name="prompt_orderId">OrderId</string>
+    <string name="prompt_comment">Voeg hier eventuele opmerkingen toe</string>
+    <string name="twoWaffles">2</string>
+    <string name="fourWaffles">4</string>
+    <string name="sixWaffles">6</string>
+    <string name="eightWaffles">8</string>
+    <string name="twelveWaffles">12</string>
+    <string name="twentyWaffles">20</string>
+    <string name="comments">Opmerkingen:</string>
+    <string name="morning">Voor 12u</string>
+    <string name="midday">Tussen 13u en 16u</string>
+    <string name="evening">Na 16u</string>
+    <string name="idc">Het maakt niet uit</string>
+    <string name="action_save">Opslaan</string>
 </resources>

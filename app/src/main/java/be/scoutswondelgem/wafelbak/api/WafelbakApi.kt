@@ -71,11 +71,12 @@ interface WafelbakApi {
     /**
      * Gets order by id
      *
+     * @param authToken
      * @param id
      * @return order
      */
     @GET("orders/id/{id}")
-    fun getOrderById(@Path("id") id: Int): Single<Order>
+    fun getOrderById(@Header("Authorization") authToken: String, @Path("id") id: Int): Single<Order>
 
     /**
      * Gets orders by userId
@@ -111,5 +112,15 @@ interface WafelbakApi {
                     @Field("desiredDeliveryTime") desiredDeliveryTime: String,
                     @Field("comment") comment: String,
                     @Field("userid") userid: Int): Single<Order>
+
+    /**
+     * Updates order
+     *
+     * @param authToken
+     * @param order
+     * @return order
+     */
+    @PATCH("orders/id/patch")
+    fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Array<Int>>
 
 }

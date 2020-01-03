@@ -2,6 +2,7 @@ package be.scoutswondelgem.wafelbak.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +54,7 @@ class OrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        titleTextView = view.title_order
+        titleTextView = view.title_orders
         addOrderTextView = view.addOrder
         addOrderButton = view.button_addOrder
         fillListView(sharedPreferences.getString("TOKEN", "")!!, sharedPreferences.getString("ID", "")!!.toInt())
@@ -65,6 +66,18 @@ class OrderFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         orderRecyclerView.layoutManager = linearLayoutManager
         val adapter = OrderAdapter(orders)
+        adapter.onItemClick = { order ->
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.main_content_container, EditOrderFragment.newInstance(order.orderId))
+                ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+        adapter.onItemClick2 = { order ->
+            Log.i("MyApp", order.orderId.toString()) //TODO delete functionaliteit
+        }
+        orderRecyclerView.adapter = adapter
+        /*val adapter = OrderAdapter(orders)
         adapter.setListener {
             fragmentManager?.beginTransaction()
                 ?.replace(R.id.main_content_container, EditOrderFragment.newInstance(adapter.selectedOrder))
@@ -72,7 +85,7 @@ class OrderFragment : Fragment() {
                 ?.addToBackStack(null)
                 ?.commit()
         }
-        orderRecyclerView.adapter = adapter
+        orderRecyclerView.adapter = adapter*/
         /*orderRecyclerView.setOnClickListener { parent, view, position, id ->
 
         }*/

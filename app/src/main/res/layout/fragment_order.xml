@@ -21,7 +21,7 @@
             tools:context=".ui.OrderFragment" tools:ignore="ScrollViewSize">
 
             <TextView
-                android:id="@+id/title_order"
+                android:id="@+id/title_orders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -60,7 +60,7 @@
                 app:cardCornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_order">
+                app:layout_constraintTop_toBottomOf="@+id/title_orders">
                     <include
                         layout="@layout/order_list"
                         android:layout_width="wrap_content"

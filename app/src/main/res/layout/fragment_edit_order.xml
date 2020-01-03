@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -13,14 +14,249 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-        <TextView
-            android:id="@+id/orderIdText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/addOrder"
-            android:textColor="@color/colorPrimaryDark"
-            style="@style/TextAppearance.AppCompat.Title"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_addOrder" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            tools:context=".ui.EditOrderFragment" tools:ignore="ScrollViewSize">
+            <TextView
+                android:id="@+id/title_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/order"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textColor="@color/colorText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" android:layout_marginEnd="8dp" android:id="@+id/loading"
+                android:visibility="@{safeUnbox(orderViewModel.loadingVisibility)}">
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/default_horizontal_margin"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_order">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:id="@+id/inputLayout_orderId"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_orderId"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginEnd="@dimen/default_horizontal_margin">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_orderId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:enabled="false"
+                            android:singleLine="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/amountOfWafflesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:text="@string/amountOfWaffles"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/inputLayout_orderId" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/amountOfWafflesGroup"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginEnd="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        app:singleSelection="true"
+                        app:checkedChip="@id/twoWaffles"
+                        app:chipSpacingHorizontal="@dimen/default_horizontal_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/amountOfWafflesLabel"
+                         >
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/twoWaffles"
+                            android:text="@string/twoWaffles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/fourWaffles"
+                            android:text="@string/fourWaffles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/sixWaffles"
+                            android:text="@string/sixWaffles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/eightWaffles"
+                            android:text="@string/eightWaffles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/twelveWaffles"
+                            android:text="@string/twelveWaffles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/twentyWaffles"
+                            android:text="@string/twentyWaffles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:id="@+id/desiredDeliveryTimeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:text="@string/desiredDeliveryTime"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/amountOfWafflesGroup" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desiredDeliveryTimeGroup"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginEnd="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        app:singleSelection="true"
+                        app:checkedChip="@id/morning"
+                        app:chipSpacingHorizontal="@dimen/default_horizontal_margin"
+                        app:chipSpacingVertical="@dimen/default_vertical_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/desiredDeliveryTimeLabel"
+                        >
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/morning"
+                            android:text="@string/morning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/midday"
+                            android:text="@string/midday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/evening"
+                            android:text="@string/evening"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/idc"
+                            android:text="@string/idc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:id="@+id/commentLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:text="@string/comments"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/desiredDeliveryTimeGroup" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:id="@+id/inputLayout_comment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_comment"
+                        app:layout_constraintTop_toBottomOf="@+id/commentLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginEnd="@dimen/default_horizontal_margin"
+                        android:layout_marginBottom="@dimen/default_vertical_margin">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textLongMessage"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="@dimen/default_horizontal_margin"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="@dimen/default_horizontal_margin"
+                android:layout_marginBottom="@dimen/default_vertical_margin"
+                android:text="@string/action_save"
+                android:backgroundTint="@color/colorSave"
+                app:cornerRadius="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

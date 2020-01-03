@@ -15,17 +15,13 @@ import kotlinx.android.synthetic.main.row_order.view.*
 
 class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
     //for the transaction of fragments
-    var selectedOrder: Int? = null
-    private var listener: (() -> Unit)? = null
-
-    fun setListener(listener: (() -> Unit)?) {
-        this.listener = listener
-    }
+    var onItemClick: ((Order) -> Unit)? = null
+    var onItemClick2: ((Order) -> Unit)? = null
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-    inner class OrderViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class OrderViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var orderId : TextView = view.orderId
         var orderIdValue : TextView = view.orderIdValue
         var amountOfWafflesLabel : TextView = view.amountOfWafflesLabel
@@ -33,14 +29,15 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         var desiredDeliveryTimeLabel : TextView = view.desiredDeliveryTimeLabel
         var desiredDeliveryTimeValue : TextView = view.desiredDeliveryTimeValue
         var editOrderButton: ImageButton = view.button_editOrder
+        var removeOrderButton: ImageButton = view.button_removeOrder
 
         init {
-            editOrderButton.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            selectedOrder = orderIdValue.text.toString().toInt()
-            listener?.invoke()
+            editOrderButton.setOnClickListener{
+                onItemClick?.invoke(orderList[adapterPosition])
+            }
+            removeOrderButton.setOnClickListener{
+                onItemClick2?.invoke(orderList[adapterPosition])
+            }
         }
     }
 
