@@ -6,18 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
-import be.scoutswondelgem.wafelbak.models.Order
-import kotlinx.android.synthetic.main.row_order.view.*
+import be.scoutswondelgem.wafelbak.models.OrderAndUser
+import kotlinx.android.synthetic.main.row_admin_order.view.*
 
 
-
-class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
+class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView.Adapter<OrderAdminAdapter.OrderViewHolder>(){
     //for the transaction of fragments
-    var onItemClick: ((Order) -> Unit)? = null
-    var onItemClick2: ((Order) -> Unit)? = null
+    var onItemClick: ((OrderAndUser) -> Unit)? = null
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -29,15 +26,17 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         var amountOfWafflesValue : TextView = view.amountOfWafflesValue
         var desiredDeliveryTimeLabel : TextView = view.desiredDeliveryTimeLabel
         var desiredDeliveryTimeValue : TextView = view.desiredDeliveryTimeValue
-        var editOrderButton: ImageButton = view.button_editOrder
         var removeOrderButton: ImageButton = view.button_removeOrder
+        var nameField: TextView = view.name
+        var nameValue: TextView = view.nameValue
+        var addressField: TextView = view.address
+        var addressValue: TextView = view.addressValue
+        var extraField: TextView = view.extraField
+        var extraFieldValue: TextView = view.extraFieldValue
 
         init {
-            editOrderButton.setOnClickListener{
-                onItemClick?.invoke(orderList[adapterPosition])
-            }
             removeOrderButton.setOnClickListener{
-                onItemClick2?.invoke(orderList[adapterPosition])
+                onItemClick?.invoke(orderList[adapterPosition])
             }
         }
     }
@@ -45,7 +44,7 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): OrderViewHolder {
         // Create a new view.
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.row_order, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.row_admin_order, viewGroup, false)
         return OrderViewHolder(view)
     }
 
@@ -60,6 +59,22 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         viewHolder.amountOfWafflesValue.text = orderList[position].amountOfWaffles.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
         viewHolder.desiredDeliveryTimeValue.text = orderList[position].desiredDeliveryTime.levertijd
+        viewHolder.nameField.setText(R.string.name)
+        viewHolder.nameValue.text = (orderList[position].user.firstName + " "+ orderList[position].user.lastName)
+        viewHolder.addressField.setText(R.string.address)
+        viewHolder.addressValue.text = (orderList[position].user.street + " " +
+                orderList[position].user.streetNumber + ", " + orderList[position].user.postalCode + " " + orderList[position].user.city)
+        if(orderList[position].user.streetExtra !== null && orderList[position].comment!== null)
+        {
+            viewHolder.extraField.setText(R.string.extraField)
+            viewHolder.extraFieldValue.text = ("AdresExtra: "  + orderList[position].user.streetExtra + ", " + orderList[position].comment)
+        } else if(orderList[position].user.streetExtra !== null && orderList[position].comment === null) {
+            viewHolder.extraField.setText(R.string.extraField)
+            viewHolder.extraFieldValue.text = ("AdresExtra: "  + orderList[position].user.streetExtra)
+        } else if(orderList[position].user.streetExtra === null && orderList[position].comment !== null) {
+            viewHolder.extraField.setText(R.string.extraField)
+            viewHolder.extraFieldValue.text = orderList[position].comment
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

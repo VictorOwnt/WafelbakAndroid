@@ -16,6 +16,7 @@
     <string name="nav_edit_profile">Accountgegevens aanpassen</string>
     <string name="nav_logout">Afmelden</string>
     <string name="orders">Bestellingen</string>
+    <string name="nav_all_orders">Alle Bestellingen</string>
     <string name="orderId">OrderID:</string>
     <string name="amountOfWaffles">Aantal wafels:</string>
     <string name="desiredDeliveryTime">Gewenste levertijd:</string>
@@ -36,4 +37,13 @@
     <string name="evening">Na 16u</string>
     <string name="idc">Het maakt niet uit</string>
     <string name="action_save">Opslaan</string>
+    <string name="back">Terugkeren</string>
+    <string name="order_create">Bestelling plaatsen</string>
+    <string name="action_order">Plaats bestelling</string>
+    <string name="name">Naam:</string>
+    <string name="address">Adres:</string>
+    <string name="extraField">Extra:</string>
+    <string name="noOrderYet">Je hebt nog geen bestellingen.</string>
+    <string name="noTotalOrdersYet">Er zijn nog geen bestellingen</string>
+    <string name="search">Zoeken</string>
 </resources>

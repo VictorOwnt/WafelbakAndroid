@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.databinding.FragmentEditOrderBinding
@@ -155,8 +157,12 @@ class EditOrderFragment: Fragment() {
                 order.comment = commentInput.text.toString()
             }
             val updatedOrder = orderViewModel.updateOrder(authToken, order)
-            Log.i("MyApp", updatedOrder.toString())
-            fragmentManager?.popBackStackImmediate()
+            Toast.makeText(
+                activity,
+                "Wijziging van bestelling " + updatedOrder.orderId + " opgeslaan!",
+                Toast.LENGTH_SHORT
+            ).show()
+            fragmentManager!!.popBackStack("OrderFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
     }
 }

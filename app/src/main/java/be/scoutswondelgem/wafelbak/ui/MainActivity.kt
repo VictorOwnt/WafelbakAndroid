@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.koin.android.ext.android.get
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
+        toggle.syncState() //disabling backbutton , enabling hamburger
 
         // Setup navHeader
         val headerView = nav_view.getHeaderView(0)
@@ -88,6 +89,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             nav_view.menu.findItem(R.id.nav_orders).isChecked = true
             nav_view.menu.performIdentifierAction(R.id.nav_orders, 0)
         }
+        if (!sharedPreferences.getBoolean("ADMIN", false)) {
+            val item = nav_view.menu.findItem(R.id.nav_all_orders)
+            item.isVisible = false
+        }
 
         // Set logger
         Logger.addLogAdapter(AndroidLogAdapter())
@@ -95,91 +100,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        if (!sharedPreferences.getBoolean("ADMIN", false)) {
-            val item = menu.findItem(R.id.action_allOrders)
-            item.isVisible = false
-            invalidateOptionsMenu()
-        }
-        return true
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button.
-        when (item.itemId) {
-           /* R.id.action_actie2 -> {
-                // Get date to show
-
-
-                // Show datepicker dialog
-                val datePickerDialog = DatePickerDialog(this, R.style.DialogTheme, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                    // Change dateSelector to selected date
-                    val date = DateTime(year, monthOfYear+1, dayOfMonth, 0, 0, 0)
-                    this.year = year
-                    this.month = monthOfYear
-                    this.day = dayOfMonth
-                    if (::clickedUser.isInitialized) {
-                        openDetailFragment(
-                            DateSelectorFragment.newInstance(
-                                date,
-                                clickedUser.id
-                            )
-                        )
-                    } else {
-                        openDetailFragment(
-                            DateSelectorFragment.newInstance(
-                                date,
-                                sharedPreferences.getString(SharedPreferencesEnum.ID.string, "")!!
-                            )
-                        )
-                    }
-
-                }, year, month, day)
-                datePickerDialog.show()
-            }*/
-            R.id.action_allOrders -> {
-            /*
-                setContentView(R.layout.user_list)
-
-                fillListView()
-                main_content_container.visibility = View.GONE
-             */
-            }
-        }
-
-        return true
-
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        //supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE) //terugkeren
         // Handle navigation view item clicks.
-
+        item.isChecked = true
         when (item.itemId) {
             R.id.nav_orders -> {
-                openDetailFragment(
-                OrderFragment.newInstance()) //sharedPreferences.getString("ID", "")!!
+                nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
+                nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
+                openDetailFragment(OrderFragment.newInstance())
+            }
+            R.id.nav_all_orders -> {
+                nav_view.menu.findItem(R.id.nav_orders).isChecked = false
+                nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
+                openDetailFragment(AllOrderFragment.newInstance())
             }
             R.id.nav_edit_profile -> {
-            // Logout
-            sharedPreferences.edit().clear().apply()
-            // Open AuthActivity
-            val intent = Intent(this, AuthActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+                nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
+                nav_view.menu.findItem(R.id.nav_orders).isChecked = false
+                // Logout
+                sharedPreferences.edit().clear().apply()
+                // Open AuthActivity
+                val intent = Intent(this, AuthActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
             R.id.nav_logout -> {
                 // Logout
                 sharedPreferences.edit().clear().apply()

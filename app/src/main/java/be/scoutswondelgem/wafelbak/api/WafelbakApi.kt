@@ -1,6 +1,7 @@
 package be.scoutswondelgem.wafelbak.api
 
 import be.scoutswondelgem.wafelbak.models.Order
+import be.scoutswondelgem.wafelbak.models.OrderAndUser
 import be.scoutswondelgem.wafelbak.models.User
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -60,15 +61,6 @@ interface WafelbakApi {
     ): Single<User>
 
     /**
-     * Gets all orders
-     *
-     *
-     * @return list of all orders
-     */
-    @GET("orders/")
-    fun getOrders(): Observable<List<Order>>
-
-    /**
      * Gets order by id
      *
      * @param authToken
@@ -89,6 +81,14 @@ interface WafelbakApi {
     fun getOrdersByUserId(@Header("Authorization") authToken: String, @Path("userId") userId: Int): Observable<List<Order>>
 
     /**
+     * Gets orders joined by users
+     *
+     * @param authToken
+     */
+    @GET("orders/joined")
+    fun getOrdersJoined(@Header("Authorization") authToken: String): Observable<List<OrderAndUser>>
+
+    /**
      * Gets orders by userEmail
      *
      * @param email
@@ -100,6 +100,7 @@ interface WafelbakApi {
     /**
      * Creates order
      *
+     * @param authToken
      * @param amountOfWaffles
      * @param desiredDeliveryTime
      * @param comment
@@ -108,7 +109,8 @@ interface WafelbakApi {
      */
     @FormUrlEncoded
     @POST("orders/create")
-    fun createOrder(@Field("amountOfWaffles") amountOfWaffles: Int,
+    fun createOrder(@Header("Authorization") authToken: String,
+                    @Field("amountOfWaffles") amountOfWaffles: Int,
                     @Field("desiredDeliveryTime") desiredDeliveryTime: String,
                     @Field("comment") comment: String,
                     @Field("userid") userid: Int): Single<Order>
@@ -120,7 +122,17 @@ interface WafelbakApi {
      * @param order
      * @return order
      */
-    @PATCH("orders/id/patch")
+    @PATCH("orders/patch")
     fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
+
+    /**
+     * Deletes order
+     *
+     * @param authToken
+     * @param order
+     * @return order
+     */
+    @HTTP(method = "DELETE", path = "orders/delete", hasBody = true)
+    fun deleteOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
 
 }

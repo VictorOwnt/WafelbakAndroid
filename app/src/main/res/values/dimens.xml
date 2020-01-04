@@ -17,6 +17,7 @@
     <dimen name="font_size_huge">24sp</dimen>
 
     <!-- OrderListItem. -->
-    <dimen name="orderListItemHeight">85dp</dimen>
+    <dimen name="orderListItemHeight">90dp</dimen>
+    <dimen name="orderAdminListItemHeight">170dp</dimen>
     <dimen name="editButtonMargin">.20</dimen>
 </resources>

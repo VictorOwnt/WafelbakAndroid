@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <!-- enkel zichtbaar als admin-->
     <item
-        android:id="@+id/action_allOrders"
-        android:icon="@drawable/ic_receipt_white_24dp"
+        android:id="@+id/action_back"
+        android:icon="@drawable/ic_delete_red_24dp"
         android:orderInCategory="200"
-        android:title="@string/allOrders"
+        android:title="@string/back"
         app:showAsAction="ifRoom" />
-
 </menu>

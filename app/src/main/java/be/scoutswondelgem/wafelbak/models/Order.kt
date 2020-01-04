@@ -25,5 +25,5 @@ data class Order (
     var comment: String?,
     @ColumnInfo(name="UserId")
     @field:Json(name="UserId")
-    var userId: Int
+    var userId: Int?
 )

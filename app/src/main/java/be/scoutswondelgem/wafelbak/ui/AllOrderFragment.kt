@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -15,27 +14,28 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
-import be.scoutswondelgem.wafelbak.adapters.OrderAdapter
-import be.scoutswondelgem.wafelbak.databinding.FragmentOrderBinding
+import be.scoutswondelgem.wafelbak.adapters.OrderAdminAdapter
+import be.scoutswondelgem.wafelbak.databinding.FragmentAllOrderBinding
 import be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_order.view.*
+import kotlinx.android.synthetic.main.fragment_all_order.view.*
 import kotlinx.android.synthetic.main.order_list.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class OrderFragment : Fragment() {
-    //Voor creatie OrderFragment
+class AllOrderFragment : Fragment() {
+    //Voor creatie AllOrderFragment
     companion object {
         @JvmStatic
-        fun newInstance() = OrderFragment()
+        fun newInstance() = AllOrderFragment()
     }
+
     //Ui elementen:
     private lateinit var titleTextView : TextView
-    private lateinit var addOrderTextView : TextView
-    private lateinit var addOrderButton: FloatingActionButton
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var searchTextView : TextView
+    private lateinit var searchButton: FloatingActionButton
     private lateinit var noOrdersTextView: TextView
 
 
@@ -47,8 +47,8 @@ class OrderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentOrderBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_order, container, false)
+        val binding: FragmentAllOrderBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_all_order, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.orderViewModel = orderViewModel
         return binding.root
@@ -57,36 +57,26 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         titleTextView = view.title_orders
-        addOrderTextView = view.addOrder
-        addOrderButton = view.button_addOrder
+        searchTextView = view.search
+        searchButton = view.button_search
         noOrdersTextView = view.noOrdersYet
-        fillListView(sharedPreferences.getString("TOKEN", "")!!, sharedPreferences.getString("ID", "")!!.toInt())
-        addOrderButton.setOnClickListener {
-            fragmentManager!!.beginTransaction()
-                .replace(R.id.main_content_container, CreateOrderFragment.newInstance())
-                .setTransition((FragmentTransaction.TRANSIT_FRAGMENT_OPEN))
-                .addToBackStack("OrderFragment")
-                .commit()
+        fillListView(sharedPreferences.getString("TOKEN", "")!!)
+        searchButton.setOnClickListener {
+
         }
     }
 
-    private fun fillListView(authToken: String, id: Int){
-        val orders = orderViewModel.getOrdersForCurrentUser(authToken, id)
-        if (orders.isNotEmpty())
+    private fun fillListView(authToken: String){
+        val ordersAndUsers = orderViewModel.getOrdersJoined(authToken)
+        if(ordersAndUsers.isNotEmpty())
         {
-            noOrdersTextView.visibility = GONE
+            noOrdersTextView.visibility = View.GONE
             orderRecyclerView = order_list
             linearLayoutManager = LinearLayoutManager(activity)
             orderRecyclerView.layoutManager = linearLayoutManager
-            val adapter = OrderAdapter(orders)
-            adapter.onItemClick = { order ->
-                fragmentManager!!.beginTransaction()
-                    .replace(R.id.main_content_container, EditOrderFragment.newInstance(order.orderId))
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .addToBackStack("OrderFragment")
-                    .commit()
-            }
-            adapter.onItemClick2 = { order ->
+            val adapter = OrderAdminAdapter(ordersAndUsers)
+            adapter.onItemClick = { orderAndUser ->
+                val order = orderViewModel.getOrderById(authToken, orderAndUser.orderId)
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setCancelable(true)
                     .setNegativeButton("Nee") {
