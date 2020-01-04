@@ -2,9 +2,9 @@ package be.scoutswondelgem.wafelbak.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,6 +18,7 @@ import be.scoutswondelgem.wafelbak.adapters.OrderAdminAdapter
 import be.scoutswondelgem.wafelbak.databinding.FragmentAllOrderBinding
 import be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.fragment_all_order.view.*
 import kotlinx.android.synthetic.main.order_list.*
 import org.koin.android.ext.android.get
@@ -31,18 +32,22 @@ class AllOrderFragment : Fragment() {
     }
 
     //Ui elementen:
-    private lateinit var titleTextView : TextView
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var searchTextView : TextView
-    private lateinit var searchButton: FloatingActionButton
     private lateinit var noOrdersTextView: TextView
+    private lateinit var searchBar: MaterialSearchBar
+    private lateinit var searchButton: FloatingActionButton
+    private lateinit var searchTextView: TextView
 
 
     //Injecteren:
     private val orderViewModel by viewModel<OrderViewModel>()
     private val sharedPreferences: SharedPreferences = get()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,14 +61,34 @@ class AllOrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        titleTextView = view.title_orders
-        searchTextView = view.search
-        searchButton = view.button_search
         noOrdersTextView = view.noOrdersYet
-        fillListView(sharedPreferences.getString("TOKEN", "")!!)
+        searchBar = view.searchBar
+        searchBar.visibility = View.GONE
+        searchButton = view.button_search
+        searchTextView = view.search
         searchButton.setOnClickListener {
-
+            it.visibility = View.GONE
+            searchTextView.visibility = View.GONE
+            searchBar.visibility = View.VISIBLE
+            searchBar.enableSearch()                    //TODO focus? keyboard down?
         }
+        fillListView(sharedPreferences.getString("TOKEN", "")!!)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button.
+        when (item.itemId) {
+            R.id.action_stats -> {
+
+            }
+        }
+        return true
     }
 
     private fun fillListView(authToken: String){
@@ -101,6 +126,14 @@ class AllOrderFragment : Fragment() {
                 alert.show()
             }
             orderRecyclerView.adapter = adapter
+            searchBar.addTextChangeListener(object: TextWatcher {
+                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+                override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                    //SEARCH FILTER
+                    adapter.filter.filter(charSequence)
+                }
+                override fun afterTextChanged(editable: Editable) {}        //TODO experimenteren met button aftertextChanged visibility
+            })
         }
     }
 }

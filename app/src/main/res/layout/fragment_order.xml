@@ -20,19 +20,6 @@
             android:background="@color/colorBackground"
             tools:context=".ui.OrderFragment" tools:ignore="ScrollViewSize">
 
-            <TextView
-                android:id="@+id/title_orders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/orders"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,14 +41,16 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="0dp"
-                android:layout_height="550dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintHeight_max="600dp"
                 android:layout_marginStart="@dimen/default_horizontal_margin"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/default_horizontal_margin"
                 app:cardCornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_orders">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <include
                     layout="@layout/order_list"
@@ -102,10 +91,10 @@
                 android:elevation="2dp"
                 android:text="@string/noOrderYet"
                 android:textColor="@color/colorText"
-                app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_orders" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

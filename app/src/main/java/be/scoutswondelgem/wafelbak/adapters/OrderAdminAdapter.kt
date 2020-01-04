@@ -4,16 +4,23 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.models.OrderAndUser
 import kotlinx.android.synthetic.main.row_admin_order.view.*
+import android.widget.Filterable
 
 
-class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView.Adapter<OrderAdminAdapter.OrderViewHolder>(){
-    //for the transaction of fragments
+
+
+class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView.Adapter<OrderAdminAdapter.OrderViewHolder>() ,
+    Filterable {
+    //For searching
+    var orderListFiltered: List<OrderAndUser> = orderList
+    //For the transaction of fragments
     var onItemClick: ((OrderAndUser) -> Unit)? = null
 
     /**
@@ -52,32 +59,69 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
     override fun onBindViewHolder(viewHolder: OrderViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
+        val order: OrderAndUser = orderListFiltered[position]
         viewHolder.orderId.setText(R.string.orderId)
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)
-        viewHolder.orderIdValue.text = orderList[position].orderId.toString()
+        viewHolder.orderIdValue.text = order.orderId.toString()
         viewHolder.amountOfWafflesLabel.setText(R.string.amountOfWaffles)
-        viewHolder.amountOfWafflesValue.text = orderList[position].amountOfWaffles.toString()
+        viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
-        viewHolder.desiredDeliveryTimeValue.text = orderList[position].desiredDeliveryTime.levertijd
+        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.levertijd
         viewHolder.nameField.setText(R.string.name)
-        viewHolder.nameValue.text = (orderList[position].user.firstName + " "+ orderList[position].user.lastName)
+        viewHolder.nameValue.text = (order.user.firstName + " "+ order.user.lastName)
         viewHolder.addressField.setText(R.string.address)
-        viewHolder.addressValue.text = (orderList[position].user.street + " " +
-                orderList[position].user.streetNumber + ", " + orderList[position].user.postalCode + " " + orderList[position].user.city)
-        if(orderList[position].user.streetExtra !== null && orderList[position].comment!== null)
+        viewHolder.addressValue.text = (order.user.street + " " +
+                order.user.streetNumber + ", " + order.user.postalCode + " " + order.user.city)
+        if(order.user.streetExtra !== null && order.comment!== null)
         {
             viewHolder.extraField.setText(R.string.extraField)
-            viewHolder.extraFieldValue.text = ("AdresExtra: "  + orderList[position].user.streetExtra + ", " + orderList[position].comment)
-        } else if(orderList[position].user.streetExtra !== null && orderList[position].comment === null) {
+            viewHolder.extraFieldValue.text = ("AdresExtra: "  + order.user.streetExtra + ", " + order.comment)
+        } else if(order.user.streetExtra !== null && order.comment === null) {
             viewHolder.extraField.setText(R.string.extraField)
-            viewHolder.extraFieldValue.text = ("AdresExtra: "  + orderList[position].user.streetExtra)
-        } else if(orderList[position].user.streetExtra === null && orderList[position].comment !== null) {
+            viewHolder.extraFieldValue.text = ("AdresExtra: "  + order.user.streetExtra)
+        } else if(orderListFiltered[position].user.streetExtra === null && order.comment !== null) {
             viewHolder.extraField.setText(R.string.extraField)
-            viewHolder.extraFieldValue.text = orderList[position].comment
+            viewHolder.extraFieldValue.text = order.comment
         }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = orderList.size
+    override fun getItemCount() = orderListFiltered.size
 
+    //For searching
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val charString = charSequence.toString()
+                if (charString.isEmpty()) {
+                    orderListFiltered = orderList
+                } else {
+                    val filteredList = ArrayList<OrderAndUser>()
+                    for (order in orderList) {
+                        // name match condition. this might differ depending on your requirement
+                        if (order.user.firstName.toLowerCase().contains(charString.toLowerCase()) ||
+                            order.user.lastName.toLowerCase().contains(charString.toLowerCase()) ||
+                            (order.user.street.toLowerCase() + " " + order.user.streetNumber).contains(charString.toLowerCase())
+                        ) {
+                            filteredList.add(order)
+                        }
+                    }
+
+                    orderListFiltered = filteredList
+                }
+
+                val filterResults = FilterResults()
+                filterResults.values = orderListFiltered
+                return filterResults
+            }
+
+            override fun publishResults(
+                charSequence: CharSequence,
+                filterResults: FilterResults
+            ) {
+                orderListFiltered = filterResults.values as ArrayList<OrderAndUser>
+                notifyDataSetChanged()
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.databinding.FragmentLoginBinding
 import be.scoutswondelgem.wafelbak.viewmodels.UserViewModel
@@ -30,6 +31,7 @@ class LoginFragment : Fragment() {
     private lateinit var emailInputLayout: TextInputLayout
     private lateinit var passwordInput: TextInputEditText
     private lateinit var passwordInputLayout: TextInputLayout
+    private lateinit var registerButton: Button
 
     //Injecteren:
     private val userViewModel by viewModel<UserViewModel>()
@@ -55,6 +57,7 @@ class LoginFragment : Fragment() {
         emailInputLayout = view.inputlayout_email
         passwordInput = view.input_password
         passwordInputLayout = view.inputlayout_password
+        registerButton = view.button_register
 
         // OnClickListener sign in button
         signinButton.setOnClickListener {
@@ -91,18 +94,33 @@ class LoginFragment : Fragment() {
                 }
         }
 
+        // OnClickListener register button
+        registerButton.setOnClickListener{
+            fragmentManager!!.beginTransaction()
+                .replace(R.id.auth_content_container, RegisterFragment.newInstance())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("LoginFragment")
+                .commit()
+        }
+
         // TextWatchers
-        emailInput.addTextChangedListener(watcher)
-        passwordInput.addTextChangedListener(watcher)
+        emailInput.addTextChangedListener(emailWatcher)
+        passwordInput.addTextChangedListener(passwordWatcher)
     }
 
-    private val watcher = object : TextWatcher {
+    private val emailWatcher = object: TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {} //TODO password not strong enough, email valid
         override fun afterTextChanged(s: Editable) {
             emailInputLayout.error = getString(R.string.required)
             emailInputLayout.isErrorEnabled = emailInput.text.isNullOrBlank()
+        }
+    }
 
+    private val passwordWatcher = object: TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {} //TODO password not strong enough, email valid
+        override fun afterTextChanged(s: Editable) {
             passwordInputLayout.error = getString(R.string.required)
             passwordInputLayout.isErrorEnabled = passwordInput.text.isNullOrBlank()
 

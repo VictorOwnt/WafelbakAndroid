@@ -61,6 +61,34 @@ interface WafelbakApi {
     ): Single<User>
 
     /**
+     * Registers user
+     *
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     * @param birthday
+     * @param street
+     * @param streetNumber
+     * @param streetExtra
+     * @param postalCode
+     * @param city
+     * @return order
+     */
+    @FormUrlEncoded
+    @POST("users/register")
+    fun register(@Field("firstName") firstName: String,
+                 @Field("lastName") lastName: String,
+                 @Field("email") email: String,
+                 @Field("password") password: String,
+                 @Field("birthday") birthday: String,
+                 @Field("street") street: String,
+                 @Field("streetNumber") streetNumber: Int,
+                 @Field("streetExtra") streetExtra: String?,
+                 @Field("postalCode") postalCode: Int,
+                 @Field("city") city: String): Single<User>
+
+    /**
      * Gets order by id
      *
      * @param authToken

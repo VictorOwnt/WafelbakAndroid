@@ -62,6 +62,7 @@ class CreateOrderFragment: Fragment() {
     ): View? {
         val binding: FragmentCreateOrderBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_create_order, container, false)
+        activity?.title = "Bestelling Plaatsen"
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.orderViewModel = orderViewModel
         return binding.root

@@ -146,6 +146,16 @@
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 tools:ignore="ContentDescription" />
 
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorBackground"
+                android:textColor="@color/colorText"
+                android:text="@string/noAccountYet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="147dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

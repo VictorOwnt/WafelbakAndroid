@@ -14,7 +14,12 @@ class UserRepository(private val wafelbakApi: WafelbakApi, private val userDao: 
         return wafelbakApi.login(email, password)
     }
 
-    // fun isValidEmail(email: String) = wafelbakApi.isValidEmail(email) // volgens mij kan dit zelf compleet uit de applicatie
-    // suspend fun getUsers() = wafelbakApi.getUsers()
-    // suspend fun getUserByEmail(email: String) = wafelbakApi.getUserByEmail(email)
+    fun register(firstName: String, lastName: String, email: String, password: String, birthday: String, street: String,
+                 streetNumber: Int, streetExtra: String?, postalCode: Int, city: String):Single<User> {
+        return wafelbakApi.register(firstName, lastName, email, password, birthday, street, streetNumber, streetExtra, postalCode, city)
+    }
+
+    fun isValidEmail(email: String): Single<Boolean> {
+        return wafelbakApi.isValidEmail(email)
+    }
 }

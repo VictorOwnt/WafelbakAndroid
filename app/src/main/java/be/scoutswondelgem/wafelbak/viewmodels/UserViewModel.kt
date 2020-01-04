@@ -37,6 +37,33 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
+    fun register(firstName: String, lastName: String, email: String, password: String, birthday: String, street: String,
+                 streetNumber: Int, streetExtra: String?, postalCode: Int, city: String): User {
+        try{
+            onRetrieveStart()
+            return userRepository.register(firstName, lastName, email, password, birthday, street, streetNumber, streetExtra, postalCode, city)
+                .doOnError { error -> onRetrieveError(error) }
+                .blockingGet()
+        } catch (e: Exception) {
+            throw LoginException((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+    }
+
+    fun isValidEmail(email: String): Boolean {
+        try{
+            onRetrieveStart()
+            return userRepository.isValidEmail(email)
+                .doOnError { error -> onRetrieveError(error) }
+                .blockingGet()
+        } catch (e: Exception) {
+            throw Exception((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+    }
+
     private fun onRetrieveError(error: Throwable) {
         Logger.e(error.message!!)
     }

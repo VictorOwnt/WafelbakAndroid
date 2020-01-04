@@ -53,13 +53,14 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
     override fun onBindViewHolder(viewHolder: OrderViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
+        val order: Order = orderList[position]
         viewHolder.orderId.setText(R.string.orderId)
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)
-        viewHolder.orderIdValue.text = orderList[position].orderId.toString()
+        viewHolder.orderIdValue.text = order.orderId.toString()
         viewHolder.amountOfWafflesLabel.setText(R.string.amountOfWaffles)
-        viewHolder.amountOfWafflesValue.text = orderList[position].amountOfWaffles.toString()
+        viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
-        viewHolder.desiredDeliveryTimeValue.text = orderList[position].desiredDeliveryTime.levertijd
+        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.levertijd
     }
 
     // Return the size of your dataset (invoked by the layout manager)

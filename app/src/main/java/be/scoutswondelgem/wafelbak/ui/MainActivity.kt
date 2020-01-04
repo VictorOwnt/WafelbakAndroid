@@ -108,16 +108,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_orders -> {
                 nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
+                toolbar.title = "Mijn Bestellingen"
                 openDetailFragment(OrderFragment.newInstance())
             }
             R.id.nav_all_orders -> {
                 nav_view.menu.findItem(R.id.nav_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
+                toolbar.title = "Alle Bestellingen"
                 openDetailFragment(AllOrderFragment.newInstance())
             }
             R.id.nav_edit_profile -> {
                 nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_orders).isChecked = false
+                toolbar.title = "Accountgegevens"
                 // Logout
                 sharedPreferences.edit().clear().apply()
                 // Open AuthActivity
@@ -136,6 +139,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed() //TODO nav menu check juist ding + titel
+        }
     }
 
     private fun openDetailFragment(newFragment: Fragment) {

@@ -31,7 +31,6 @@ class OrderFragment : Fragment() {
         fun newInstance() = OrderFragment()
     }
     //Ui elementen:
-    private lateinit var titleTextView : TextView
     private lateinit var addOrderTextView : TextView
     private lateinit var addOrderButton: FloatingActionButton
     private lateinit var orderRecyclerView: RecyclerView
@@ -56,7 +55,6 @@ class OrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        titleTextView = view.title_orders
         addOrderTextView = view.addOrder
         addOrderButton = view.button_addOrder
         noOrdersTextView = view.noOrdersYet

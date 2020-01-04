@@ -6,7 +6,7 @@
     <group
         android:id="@+id/nav_ordersSelector"
         android:checkableBehavior="single">
-        <item android:title="@string/nav_orders">
+        <item android:title="@string/orders">
             <menu>
                 <item
                     android:id="@+id/nav_orders"
