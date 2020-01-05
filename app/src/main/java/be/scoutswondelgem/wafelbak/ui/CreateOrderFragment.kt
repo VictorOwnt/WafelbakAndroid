@@ -32,7 +32,6 @@ class CreateOrderFragment: Fragment() {
     }
 
     //UI elementen
-    private lateinit var orderTitle: TextView
     private lateinit var amountOfWafllesLabel: TextView
     private lateinit var amountOfWafflesGroup: ChipGroup
     private lateinit var twoWafflesChip: Chip
@@ -70,7 +69,6 @@ class CreateOrderFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderTitle = view.title_order
         amountOfWafflesGroup = view.amountOfWafflesGroup
         amountOfWafllesLabel = view.amountOfWafflesLabel
         twoWafflesChip = view.twoWaffles

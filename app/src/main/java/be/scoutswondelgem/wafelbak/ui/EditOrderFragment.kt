@@ -44,7 +44,6 @@ class EditOrderFragment: Fragment() {
     }
 
     //UI elementen
-    private lateinit var orderTitle: TextView
     private lateinit var orderIdLayout: TextInputLayout
     private lateinit var orderIdInput: TextInputEditText
     private lateinit var amountOfWafllesLabel: TextView
@@ -89,7 +88,6 @@ class EditOrderFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderTitle = view.title_order
         orderIdLayout = view.inputLayout_orderId
         orderIdInput = view.input_orderId
         amountOfWafflesGroup = view.amountOfWafflesGroup
