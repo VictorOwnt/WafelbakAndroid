@@ -126,6 +126,15 @@ interface WafelbakApi {
      * Gets order by id
      *
      * @param authToken
+     * @return order
+     */
+    @GET("orders/")
+    fun getOrders(@Header("Authorization") authToken: String): Observable<List<Order>>
+
+    /**
+     * Gets order by id
+     *
+     * @param authToken
      * @param id
      * @return order
      */

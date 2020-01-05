@@ -67,4 +67,8 @@
     <string name="passwordNotStrongEnough">Wachtwoord is niet sterk genoeg</string>
     <string name="status">Status:</string>
     <string name="completeOrder">Bestelling voltooien</string>
+    <string name="totalOrders">Totaal Aantal Bestellingen</string>
+    <string name="totalWaffles">Totaal Aantal Wafels</string>
+    <string name="bestStreet">Best Verkopende Straat</string>
+    <string name="totalDelivered">Aantal Bestellingen Voltooid</string>
 </resources>

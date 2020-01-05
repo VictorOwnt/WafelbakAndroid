@@ -25,6 +25,20 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         //contentEnabled.value = true
     }
 
+    fun getOrders(authToken: String): List<Order> {
+        try{
+            onRetrieveStart()
+            return orderRepository.getOrders(authToken)
+                .doOnError {error -> onRetrieveError(error)}
+                .blockingFirst()
+        } catch (e : Exception) {
+            Logger.e((e as HttpException).response()!!.errorBody()!!.string())
+            return emptyList()
+        } finally {
+            onRetrieveFinish()
+        }
+    }
+
     fun getOrdersJoined(authToken: String): List<OrderAndUser> {
         try{
             onRetrieveStart()

@@ -71,31 +71,29 @@
         app:layout_constraintStart_toEndOf="@+id/desiredDeliveryTimeLabel"
         app:layout_constraintTop_toBottomOf="@id/amountOfWafflesValue" />
 
-    <!--margin moet nog anders voor tablet, hoe?-->
     <ImageButton
         android:id="@+id/button_completeOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="@dimen/default_horizontal_margin"
         android:background="@null"
         android:contentDescription="@string/remove"
-        android:src="@drawable/ic_check_green_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/desiredDeliveryTimeValue"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/button_removeOrder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_check_green_24dp" />
 
     <ImageButton
         android:id="@+id/button_removeOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="@dimen/default_horizontal_margin"
         android:background="@null"
         android:contentDescription="@string/completeOrder"
-        android:src="@drawable/ic_delete_red_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_completeOrder"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_delete_red_24dp" />
 
     <TextView
         android:id="@+id/name"

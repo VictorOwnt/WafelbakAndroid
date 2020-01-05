@@ -80,7 +80,7 @@
                 android:layout_marginBottom="@dimen/default_vertical_margin"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/addOrder"
-                android:src="@drawable/ic_add_white_24dp"
+                app:srcCompat="@drawable/ic_add_white_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

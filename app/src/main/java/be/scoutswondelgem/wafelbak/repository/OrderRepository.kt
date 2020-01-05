@@ -13,6 +13,10 @@ class OrderRepository(private val wafelbakApi: WafelbakApi, private val orderDao
     //Data:
     val data: LiveData<List<Order>> = orderDao.getAllOrders()
 
+    fun getOrders(authToken: String):Observable<List<Order>> {
+        return wafelbakApi.getOrders(authToken)
+    }
+
     fun getOrdersJoined(authToken: String):Observable<List<OrderAndUser>> {
         return wafelbakApi.getOrdersJoined(authToken)
     }

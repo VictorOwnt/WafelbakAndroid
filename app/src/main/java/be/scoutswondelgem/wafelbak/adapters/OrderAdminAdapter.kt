@@ -70,7 +70,7 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
         // with that element
         val order: OrderAndUser = orderListFiltered[position]
         if(order.deliveryStatus.status == "Bezorgd") {
-            viewHolder.itemView.setBackgroundColor(Color.DKGRAY)
+            viewHolder.itemView.setBackgroundColor(R.color.lightGray)
         }
         viewHolder.orderId.setText(R.string.orderId)
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)

@@ -86,7 +86,10 @@ class AllOrderFragment : Fragment() {
         // automatically handle clicks on the Home/Up button.
         when (item.itemId) {
             R.id.action_stats -> {
-
+                fragmentManager!!.beginTransaction()
+                    .replace(R.id.main_content_container, StatisticsFragment.newInstance())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
             }
         }
         return true

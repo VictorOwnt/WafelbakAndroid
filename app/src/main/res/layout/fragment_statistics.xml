@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="orderViewModel"
+            type="be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            tools:context=".ui.StatisticsFragment" tools:ignore="ScrollViewSize">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" android:layout_marginEnd="8dp" android:id="@+id/loading"
+                android:visibility="@{safeUnbox(orderViewModel.loadingVisibility)}">
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_vertical_margin" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/default_horizontal_margin"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/default_horizontal_margin"
+                android:id="@+id/cardView" app:cardCornerRadius="8dp"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/totalOrdersImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/totalOrders"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_receipt_orange_24dp" />
+
+                    <TextView
+                        android:id="@+id/totalOrders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_vertical_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="@dimen/default_horizontal_margin"
+                        android:text="@string/totalOrders"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/totalOrdersValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:text="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/totalOrders" />
+
+                    <ImageView
+                        android:id="@+id/totalWafflesImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/totalWaffles"
+                        app:layout_constraintTop_toBottomOf="@id/totalOrdersValue"
+                        app:srcCompat="@drawable/ic_icons8_belgian_waffle_100" />
+
+                    <TextView
+                        android:id="@+id/totalWaffles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="@dimen/default_horizontal_margin"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/totalWaffles"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/totalOrdersValue" />
+
+                    <TextView
+                        android:id="@+id/totalWafflesValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:text="7000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/totalWaffles" />
+
+                    <ImageView
+                        android:id="@+id/bestStreetImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/bestStreet"
+                        app:layout_constraintTop_toBottomOf="@id/totalWafflesValue"
+                        app:srcCompat="@drawable/ic_monetization_on_orange_24dp" />
+
+                    <TextView
+                        android:id="@+id/bestStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="16dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/bestStreet"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/totalWafflesValue" />
+
+                    <TextView
+                        android:id="@+id/bestStreetValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:text="SesamStraat"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/bestStreet" />
+
+                    <ImageView
+                        android:id="@+id/totalDeliveredImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/totalDelivered"
+                        app:layout_constraintTop_toBottomOf="@id/bestStreetValue"
+                        android:tint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_check_green_24dp" />
+
+                    <TextView
+                        android:id="@+id/totalDelivered"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginEnd="16dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/totalDelivered"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/bestStreetValue" />
+
+                    <TextView
+                        android:id="@+id/totalDeliveredValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="@dimen/default_vertical_margin"
+                        android:layout_marginBottom="@dimen/default_vertical_margin"
+                        android:text="1678"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/totalDelivered" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
