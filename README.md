@@ -81,5 +81,5 @@ The sourcecode for this server is located [here](https://github.com/VictorOwnt/W
 ## Creator
 
 | <a href="https://github.com/VictorOwnt" target="_blank">**Victor Van Hulle**</a> |
-| --- | --- | --- | --- | --- | --- |
-| [![Victor](https://avatars2.githubusercontent.com/u/17174095?s=200)](https://github.com/VictorOwnt)
+| --- |
+| [![Victor](https://avatars2.githubusercontent.com/u/17174095?s=200)](https://github.com/VictorOwnt) |
