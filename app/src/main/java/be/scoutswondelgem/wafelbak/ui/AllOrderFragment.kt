@@ -87,7 +87,8 @@ class AllOrderFragment : Fragment() {
         when (item.itemId) {
             R.id.action_stats -> {
                 fragmentManager!!.beginTransaction()
-                    .replace(R.id.main_content_container, StatisticsFragment.newInstance())
+                    .replace(R.id.main_content_container, StatisticsFragment.newInstance(), "StatisticsFragment")
+                    .addToBackStack("AllOrderFragment")
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
@@ -111,7 +112,7 @@ class AllOrderFragment : Fragment() {
                         order.deliveryStatus = DeliveryStatus.WELGELEVERD
                         orderViewModel.completeOrder(authToken, order)
                         fragmentManager!!.beginTransaction()
-                            .replace(R.id.main_content_container, newInstance())
+                            .replace(R.id.main_content_container, newInstance(), "AllOrderFragment")
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()
                         Toast.makeText(
@@ -132,7 +133,7 @@ class AllOrderFragment : Fragment() {
                                 order.deliveryStatus = DeliveryStatus.NIETGELEVERD
                                 orderViewModel.completeOrder(authToken, order)
                                 fragmentManager!!.beginTransaction()
-                                    .replace(R.id.main_content_container, newInstance())
+                                    .replace(R.id.main_content_container, newInstance(), "AllOrderFragment")
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                     .commit()
                                 Toast.makeText(
@@ -158,7 +159,7 @@ class AllOrderFragment : Fragment() {
                             dialog, id -> dialog.dismiss()
                         val deletedOrder = orderViewModel.deleteOrder(authToken, order)
                         fragmentManager!!.beginTransaction()
-                            .replace(R.id.main_content_container, newInstance())
+                            .replace(R.id.main_content_container, newInstance(), "AllOrderFragment")
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()
                         Toast.makeText(

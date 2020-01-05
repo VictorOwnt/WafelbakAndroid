@@ -24,6 +24,8 @@ import kotlinx.android.synthetic.main.order_list.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
+
 class OrderFragment : Fragment() {
     //Voor creatie OrderFragment
     companion object {
@@ -53,6 +55,13 @@ class OrderFragment : Fragment() {
         return binding.root
     }
 
+   /* override fun onResume() {
+        super.onResume()
+        // Set title //TODO nullpointerexception
+        activity!!.actionBar!!
+            .setTitle(R.string.orders_title)
+    }*/
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addOrderTextView = view.addOrder
@@ -61,7 +70,7 @@ class OrderFragment : Fragment() {
         fillListView(sharedPreferences.getString("TOKEN", "")!!, sharedPreferences.getString("ID", "")!!.toInt())
         addOrderButton.setOnClickListener {
             fragmentManager!!.beginTransaction()
-                .replace(R.id.main_content_container, CreateOrderFragment.newInstance())
+                .replace(R.id.main_content_container, CreateOrderFragment.newInstance(), "CreateOrderFragment")
                 .setTransition((FragmentTransaction.TRANSIT_FRAGMENT_OPEN))
                 .addToBackStack("OrderFragment")
                 .commit()
@@ -79,7 +88,7 @@ class OrderFragment : Fragment() {
             val adapter = OrderAdapter(orders)
             adapter.onItemClick = { order ->
                 fragmentManager!!.beginTransaction()
-                    .replace(R.id.main_content_container, EditOrderFragment.newInstance(order.orderId))
+                    .replace(R.id.main_content_container, EditOrderFragment.newInstance(order.orderId), "EditOrderFragment")
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .addToBackStack("OrderFragment")
                     .commit()
@@ -94,7 +103,7 @@ class OrderFragment : Fragment() {
                             dialog, id -> dialog.dismiss()
                         val deletedOrder = orderViewModel.deleteOrder(authToken, order)
                         fragmentManager!!.beginTransaction()
-                            .replace(R.id.main_content_container, newInstance())
+                            .replace(R.id.main_content_container, newInstance(), "OrderFragment")
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()
                         Toast.makeText(

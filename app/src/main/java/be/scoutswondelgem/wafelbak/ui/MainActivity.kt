@@ -92,19 +92,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
                 toolbar.title = "Mijn Bestellingen"
-                openDetailFragment(OrderFragment.newInstance())
+                openDetailFragment(OrderFragment.newInstance(), "OrderFragment")
             }
             R.id.nav_all_orders -> {
                 nav_view.menu.findItem(R.id.nav_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
                 toolbar.title = "Alle Bestellingen"
-                openDetailFragment(AllOrderFragment.newInstance())
+                openDetailFragment(AllOrderFragment.newInstance(), "AllOrderFragment")
             }
             R.id.nav_edit_profile -> {
                 nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_orders).isChecked = false
                 toolbar.title = "Accountgegevens Aanpassen"
-                openDetailFragment(EditProfileFragment.newInstance())
+                openDetailFragment(EditProfileFragment.newInstance(), "EditProfileFragment")
             }
             R.id.nav_logout -> {
                 // Logout
@@ -123,7 +123,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed() //TODO nav menu check juist ding + titel
+            super.onBackPressed()
+            val index = this.supportFragmentManager.backStackEntryCount -1
+            val backEntry = supportFragmentManager.getBackStackEntryAt(index)
+            val tag = backEntry.name
+            when(tag)
+            {
+                "OrderFragment" -> {
+                    toolbar.title = "Mijn Bestellingen"
+                    nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
+                    nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
+                    nav_view.menu.findItem(R.id.nav_orders).isChecked = true
+                }
+                "AllOrderFragment" -> {
+                    toolbar.title = "Alle Bestellingen"
+                    nav_view.menu.findItem(R.id.nav_all_orders).isChecked = true
+                    nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
+                    nav_view.menu.findItem(R.id.nav_orders).isChecked = false
+                }
+                "EditProfileFragment" -> {
+                    toolbar.title = "Accountgegevens Aanpassen"
+                    nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
+                    nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = true
+                    nav_view.menu.findItem(R.id.nav_orders).isChecked = false
+                }
+            }
         }
     }
 
@@ -140,12 +164,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun openDetailFragment(newFragment: Fragment) {
+    private fun openDetailFragment(newFragment: Fragment, tag: String) {
         this.supportFragmentManager
             .beginTransaction()
-            .replace(R.id.main_content_container, newFragment)
+            .replace(R.id.main_content_container, newFragment, tag)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .addToBackStack(null)
+            .addToBackStack(tag)
             .commit()
 
     }

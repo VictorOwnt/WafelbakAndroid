@@ -116,10 +116,11 @@ class CreateOrderFragment: Fragment() {
         }
         val order = orderViewModel.createOrder(authtoken, amountOfWaffles, desiredDeliveryTime, comment, userId)
         fragmentManager!!.beginTransaction()
-            .replace(R.id.main_content_container, OrderFragment.newInstance())
+            .replace(R.id.main_content_container, OrderFragment.newInstance(), "OrderFragment")
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .addToBackStack("CreateOrderFragment")
             .commit()
+        (activity as MainActivity).hideKeyboard()
         Toast.makeText(
             activity,
             "Bestelling " + order.orderId + " successvol geplaatst!",

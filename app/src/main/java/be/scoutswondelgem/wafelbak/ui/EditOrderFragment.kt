@@ -175,6 +175,7 @@ class EditOrderFragment: Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
             fragmentManager!!.popBackStack("OrderFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            (activity as MainActivity).hideKeyboard()
         }
     }
 }
