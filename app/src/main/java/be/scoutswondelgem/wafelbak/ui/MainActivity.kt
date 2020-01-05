@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(intent)
             finish()
         }
+        title = "Mijn Bestellingen"
         setContentView(R.layout.activity_main)
 
         //Toolbar menu
