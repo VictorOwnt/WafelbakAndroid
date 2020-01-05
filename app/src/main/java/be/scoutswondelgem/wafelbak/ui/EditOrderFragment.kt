@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import be.scoutswondelgem.wafelbak.R
@@ -174,7 +175,11 @@ class EditOrderFragment: Fragment() {
                 "Wijziging van bestelling " + updatedOrder.orderId + " opgeslaan!",
                 Toast.LENGTH_SHORT
             ).show()
-            fragmentManager!!.popBackStack("OrderFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            fragmentManager!!.beginTransaction()
+                .replace(R.id.main_content_container, OrderFragment.newInstance(), "OrderFragment")
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("EditOrderFragment")
+                .commit()
             (activity as MainActivity).hideKeyboard()
         }
     }
