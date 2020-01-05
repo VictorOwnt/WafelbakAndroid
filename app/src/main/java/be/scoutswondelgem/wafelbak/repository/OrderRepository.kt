@@ -29,6 +29,10 @@ class OrderRepository(private val wafelbakApi: WafelbakApi, private val orderDao
         return wafelbakApi.updateOrder(authToken, order)
     }
 
+    fun completeOrder(authToken: String, order : Order ): Single<Order> {
+        return wafelbakApi.completeOrder(authToken, order)
+    }
+
     fun deleteOrder(authToken: String, order: Order): Single<Order> {
         return wafelbakApi.deleteOrder(authToken, order)
     }

@@ -29,6 +29,8 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         var amountOfWafflesValue : TextView = view.amountOfWafflesValue
         var desiredDeliveryTimeLabel : TextView = view.desiredDeliveryTimeLabel
         var desiredDeliveryTimeValue : TextView = view.desiredDeliveryTimeValue
+        var statusField: TextView = view.orderStatusField
+        var statusValue: TextView = view.orderStatusFieldValue
         var editOrderButton: ImageButton = view.button_editOrder
         var removeOrderButton: ImageButton = view.button_removeOrder
 
@@ -61,6 +63,9 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
         viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.levertijd
+        viewHolder.statusField.setText(R.string.status)
+        viewHolder.statusValue.text = order.deliveryStatus.status
+        
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -188,6 +188,16 @@ interface WafelbakApi {
     fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
 
     /**
+     * Completes order
+     *
+     * @param authToken
+     * @param order
+     * @return order
+     */
+    @PATCH("orders/complete")
+    fun completeOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
+
+    /**
      * Deletes order
      *
      * @param authToken

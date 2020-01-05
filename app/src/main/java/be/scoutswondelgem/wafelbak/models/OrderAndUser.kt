@@ -13,6 +13,8 @@ data class OrderAndUser(
     var comment: String?,
     @field:Json(name="UserId")
     var userId: Int,
+    @field:Json(name="status")
+    var deliveryStatus: DeliveryStatus = DeliveryStatus.NIETGELEVERD,
     @field:Json(name="User")
     var user: User
 )

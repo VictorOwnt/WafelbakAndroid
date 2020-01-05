@@ -1,5 +1,6 @@
 package be.scoutswondelgem.wafelbak.adapters
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
     var orderListFiltered: List<OrderAndUser> = orderList
     //For the transaction of fragments
     var onItemClick: ((OrderAndUser) -> Unit)? = null
+    var onItemClick2: ((OrderAndUser) -> Unit)? = null
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -38,12 +40,19 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
         var nameValue: TextView = view.nameValue
         var addressField: TextView = view.address
         var addressValue: TextView = view.addressValue
+        var statusField: TextView = view.orderStatusField
+        var statusValue: TextView = view.orderStatusValue
         var extraField: TextView = view.extraField
         var extraFieldValue: TextView = view.extraFieldValue
+        var completeOrderButton: ImageButton = view.button_completeOrder
+
 
         init {
-            removeOrderButton.setOnClickListener{
+            completeOrderButton.setOnClickListener{
                 onItemClick?.invoke(orderList[adapterPosition])
+            }
+            removeOrderButton.setOnClickListener{
+                onItemClick2?.invoke(orderList[adapterPosition])
             }
         }
     }
@@ -60,6 +69,9 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         val order: OrderAndUser = orderListFiltered[position]
+        if(order.deliveryStatus.status == "Bezorgd") {
+            viewHolder.itemView.setBackgroundColor(Color.DKGRAY)
+        }
         viewHolder.orderId.setText(R.string.orderId)
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)
         viewHolder.orderIdValue.text = order.orderId.toString()
@@ -72,6 +84,8 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
         viewHolder.addressField.setText(R.string.address)
         viewHolder.addressValue.text = (order.user.street + " " +
                 order.user.streetNumber + ", " + order.user.postalCode + " " + order.user.city)
+        viewHolder.statusField.setText(R.string.status)
+        viewHolder.statusValue.text = order.deliveryStatus.status
         if(order.user.streetExtra !== null && order.comment!== null)
         {
             viewHolder.extraField.setText(R.string.extraField)

@@ -71,6 +71,26 @@
             app:layout_constraintStart_toEndOf="@+id/desiredDeliveryTimeLabel"
             app:layout_constraintTop_toBottomOf="@id/amountOfWafflesValue" />
 
+        <TextView
+            android:id="@+id/orderStatusField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/status"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/desiredDeliveryTimeLabel" />
+
+        <TextView
+            android:id="@+id/orderStatusFieldValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Te Bezorgen"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@+id/orderStatusField"
+            app:layout_constraintTop_toBottomOf="@+id/desiredDeliveryTimeValue" />
+
     <!--margin moet nog anders voor tablet, hoe?-->
     <ImageButton
         android:id="@+id/button_editOrder"
@@ -107,7 +127,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="10dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@id/desiredDeliveryTimeValue"
+        app:layout_constraintTop_toBottomOf="@id/orderStatusFieldValue"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

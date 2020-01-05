@@ -2,6 +2,7 @@ package be.scoutswondelgem.wafelbak.util
 
 import androidx.room.TypeConverter
 import be.scoutswondelgem.wafelbak.models.DeliveryDate
+import be.scoutswondelgem.wafelbak.models.DeliveryStatus
 import java.util.*
 
 class Converters {
@@ -26,7 +27,22 @@ class Converters {
             "Voor 12u" -> return DeliveryDate.AVOND
             "Na 16u" -> return DeliveryDate.VOORMIDDAG
             "Tussen 13u en 16u" -> return DeliveryDate.NAMIDDAG
-            else -> return null
+            "Het maakt niet uit" -> return DeliveryDate.MAAKTNIETUIT
+            else -> return DeliveryDate.MAAKTNIETUIT
+        }
+    }
+
+    @TypeConverter
+    fun delieryStatusToDatabase(deliveryStatus: DeliveryStatus): String {
+        return deliveryStatus.status
+    }
+
+    @TypeConverter
+    fun fromDatabaseToDeliveryStatus(value: String?): DeliveryStatus? {
+        when(value) {
+            "Te Bezorgen" -> return DeliveryStatus.NIETGELEVERD
+            "Bezorgd" -> return DeliveryStatus.WELGELEVERD
+            else -> return DeliveryStatus.NIETGELEVERD
         }
     }
 

@@ -57,28 +57,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // Setup navHeader
         val headerView = nav_view.getHeaderView(0)
-        val navHeaderImage = headerView.nav_header_image //TODO image nodig?
         val navHeaderName = headerView.nav_header_name
         val navHeaderEmail = headerView.nav_header_email
-        /*
-        // Load image
-        val imgUrl = sharedPreferences.getString(SharedPreferencesEnum.IMGURL.string, "")!!
-        val img = try {
-            FirebaseStorage.getInstance().reference.child(imgUrl)
-        } catch (e: Exception) {
-            when(e) {
-                is StorageException, is IllegalArgumentException -> null
-                else -> throw e
-            }
-        }
-        GlideApp.with(this)
-            .load(img)
-            .placeholder(R.drawable.ic_face)
-            .fallback(R.drawable.ic_face)
-            .fitCenter()
-            .circleCrop()
-            .into(navHeaderImage)
-         */
+
         // Load name
         navHeaderName.text = (sharedPreferences.getString("FIRSTNAME", getString(R.string.app_name)) + " " +
                 sharedPreferences.getString("LASTNAME", ""))

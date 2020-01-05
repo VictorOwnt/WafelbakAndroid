@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/order_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/orderAdminListItemHeight"
@@ -74,18 +73,28 @@
 
     <!--margin moet nog anders voor tablet, hoe?-->
     <ImageButton
+        android:id="@+id/button_completeOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@null"
+        android:contentDescription="@string/remove"
+        android:src="@drawable/ic_check_green_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/desiredDeliveryTimeValue"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/button_removeOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="@dimen/default_vertical_margin"
-        android:layout_marginBottom="@dimen/default_horizontal_margin"
+        android:layout_marginTop="40dp"
         android:background="@null"
-        android:contentDescription="@string/remove"
+        android:contentDescription="@string/completeOrder"
         android:src="@drawable/ic_delete_red_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/amountOfWafflesValue"
+        app:layout_constraintStart_toEndOf="@+id/button_completeOrder"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -129,13 +138,33 @@
         app:layout_constraintTop_toBottomOf="@+id/nameValue" />
 
     <TextView
+        android:id="@+id/orderStatusField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/status"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
+
+    <TextView
+        android:id="@+id/orderStatusValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Te Bezorgen"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toEndOf="@+id/orderStatusField"
+        app:layout_constraintTop_toBottomOf="@+id/addressValue" />
+
+    <TextView
         android:id="@+id/extraField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address" />
+        app:layout_constraintTop_toBottomOf="@+id/orderStatusField" />
 
     <TextView
         android:id="@+id/extraFieldValue"
@@ -144,7 +173,7 @@
         android:layout_marginStart="5dp"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@+id/extraField"
-        app:layout_constraintTop_toBottomOf="@+id/addressValue" />
+        app:layout_constraintTop_toBottomOf="@+id/orderStatusValue" />
 
     <View
         android:id="@+id/divider"
@@ -152,7 +181,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="10dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@id/extraFieldValue"
+        app:layout_constraintTop_toBottomOf="@id/orderStatusValue"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

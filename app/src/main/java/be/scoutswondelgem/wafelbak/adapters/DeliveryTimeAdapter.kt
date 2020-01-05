@@ -6,7 +6,7 @@ import com.squareup.moshi.ToJson
 
 class DeliveryTimeAdapter {
     @ToJson
-    internal fun delieryDateToJson(deliveryDate: DeliveryDate): String {
+    internal fun deliveryDateToJson(deliveryDate: DeliveryDate): String {
         return deliveryDate.levertijd
     }
 
@@ -17,7 +17,7 @@ class DeliveryTimeAdapter {
             "Na 16u" -> return DeliveryDate.AVOND
             "Tussen 13u en 16u" -> return DeliveryDate.NAMIDDAG
             "Het maakt niet uit" -> return DeliveryDate.MAAKTNIETUIT
-            else -> return null
+            else -> return DeliveryDate.MAAKTNIETUIT
         }
     }
 }

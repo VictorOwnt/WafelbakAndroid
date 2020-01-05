@@ -23,6 +23,8 @@ data class Order (
     var desiredDeliveryTime: DeliveryDate,
     @field:Json(name="comment")
     var comment: String?,
+    @field:Json(name="status")
+    var deliveryStatus: DeliveryStatus = DeliveryStatus.NIETGELEVERD,
     @ColumnInfo(name="UserId")
     @field:Json(name="UserId")
     var userId: Int?

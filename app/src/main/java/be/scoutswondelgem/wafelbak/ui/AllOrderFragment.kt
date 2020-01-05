@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.adapters.OrderAdminAdapter
 import be.scoutswondelgem.wafelbak.databinding.FragmentAllOrderBinding
+import be.scoutswondelgem.wafelbak.models.DeliveryStatus
 import be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mancj.materialsearchbar.MaterialSearchBar
@@ -101,6 +102,49 @@ class AllOrderFragment : Fragment() {
             orderRecyclerView.layoutManager = linearLayoutManager
             val adapter = OrderAdminAdapter(ordersAndUsers)
             adapter.onItemClick = { orderAndUser ->
+                val order = orderViewModel.getOrderById(authToken, orderAndUser.orderId)
+                when(order.deliveryStatus.status) {
+                    "Te Bezorgen"-> {
+                        order.deliveryStatus = DeliveryStatus.WELGELEVERD
+                        orderViewModel.completeOrder(authToken, order)
+                        fragmentManager!!.beginTransaction()
+                            .replace(R.id.main_content_container, newInstance())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        Toast.makeText(
+                            activity,
+                            "Bestelling " + order.orderId + " werd voltooid!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        //TODO change color or something?
+                    }
+                    "Bezorgd"-> {
+                        val dialogBuilder = AlertDialog.Builder(activity!!)
+                            .setCancelable(true)
+                            .setNegativeButton("Nee") {
+                                    dialog, id -> dialog.dismiss()
+                            }
+                            .setPositiveButton("Ja") {
+                                    dialog, id -> dialog.dismiss()
+                                order.deliveryStatus = DeliveryStatus.NIETGELEVERD
+                                orderViewModel.completeOrder(authToken, order)
+                                fragmentManager!!.beginTransaction()
+                                    .replace(R.id.main_content_container, newInstance())
+                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                    .commit()
+                                Toast.makeText(
+                                    activity,
+                                    "Bestelling " + order.orderId + " successvol onvoltooid gemaakt!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        val alert = dialogBuilder.create()
+                        alert.setTitle("Ben je zeker dat bestelling " + order.orderId + " nog niet voltooid is?")
+                        alert.show()
+                    }
+                }
+            }
+            adapter.onItemClick2 = { orderAndUser ->
                 val order = orderViewModel.getOrderById(authToken, orderAndUser.orderId)
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setCancelable(true)

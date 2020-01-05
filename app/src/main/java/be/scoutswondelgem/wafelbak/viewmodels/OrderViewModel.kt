@@ -79,6 +79,19 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
+    fun completeOrder(authToken: String, order: Order): Order {
+        try {
+            onRetrieveStart()
+            return orderRepository.completeOrder(authToken, order)
+                .doOnError {error -> onRetrieveError(error)}
+                .blockingGet()
+        } catch (e : Exception) {
+            throw Exception((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+    }
+
     fun deleteOrder(authToken: String, order:Order): Order {
         try {
             onRetrieveStart()

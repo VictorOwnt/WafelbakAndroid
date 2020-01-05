@@ -65,4 +65,6 @@
     <string name="passwordNotEqual">Wachtwoorden komen niet overeen</string>
     <string name="noEmailOrInUse">Geen geldige email Of email alreeds in gebruik</string>
     <string name="passwordNotStrongEnough">Wachtwoord is niet sterk genoeg</string>
+    <string name="status">Status:</string>
+    <string name="completeOrder">Bestelling voltooien</string>
 </resources>
