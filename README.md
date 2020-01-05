@@ -75,7 +75,8 @@ The sourcecode for this server is located [here](https://github.com/VictorOwnt/W
 ## Built With
 
 * [Retrofit](https://square.github.io/retrofit/)
-* 
+* [Koin](https://insert-koin.io)
+* [FireBase](https://firebase.google.com)
 * [ReactiveX](http://reactivex.io/)
 
 ## Creator
