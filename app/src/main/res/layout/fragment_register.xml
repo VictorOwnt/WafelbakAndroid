@@ -81,6 +81,7 @@
                             android:id="@+id/input_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:inputType="textEmailAddress"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -103,6 +104,7 @@
                             android:id="@+id/input_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:inputType="textPassword"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +127,7 @@
                             android:id="@+id/input_verify_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:inputType="textPassword"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -147,6 +150,7 @@
                             android:id="@+id/input_firstName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:inputType="textPersonName"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -169,6 +173,7 @@
                             android:id="@+id/input_lastName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:inputType="textPersonName"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -191,6 +196,7 @@
                             android:id="@+id/input_birthday"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:inputType="date"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -213,6 +219,7 @@
                             android:id="@+id/input_street"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:singleLine="true"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -235,6 +242,7 @@
                             android:id="@+id/input_streetNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:singleLine="true"
                             android:inputType="number"/>
 
@@ -258,6 +266,7 @@
                             android:id="@+id/input_streetExtra"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:singleLine="true"
                             android:inputType="textShortMessage"/>
 
@@ -281,6 +290,7 @@
                             android:id="@+id/input_postalCode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:singleLine="true"
                             android:inputType="number"/>
 
@@ -306,6 +316,7 @@
                             android:id="@+id/input_city"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(userViewModel.contentEnabled)}"
                             android:singleLine="true"/>
 
                     </com.google.android.material.textfield.TextInputLayout>

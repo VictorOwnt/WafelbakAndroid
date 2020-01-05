@@ -82,36 +82,42 @@
                             android:text="@string/twoWaffles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/fourWaffles"
                             android:text="@string/fourWaffles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/sixWaffles"
                             android:text="@string/sixWaffles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/eightWaffles"
                             android:text="@string/eightWaffles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/twelveWaffles"
                             android:text="@string/twelveWaffles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/twentyWaffles"
                             android:text="@string/twentyWaffles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
                     </com.google.android.material.chip.ChipGroup>
@@ -146,24 +152,28 @@
                             android:text="@string/morning"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/midday"
                             android:text="@string/midday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/evening"
                             android:text="@string/evening"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
                             android:id="@+id/idc"
                             android:text="@string/idc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
                     </com.google.android.material.chip.ChipGroup>
@@ -183,6 +193,7 @@
                         android:id="@+id/inputLayout_comment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
                         android:hint="@string/prompt_comment"
                         app:layout_constraintTop_toBottomOf="@+id/commentLabel"
                         app:layout_constraintStart_toStartOf="parent"

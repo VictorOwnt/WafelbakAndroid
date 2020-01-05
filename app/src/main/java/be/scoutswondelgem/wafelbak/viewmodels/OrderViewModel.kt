@@ -22,7 +22,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
 
     init {
         loadingVisibility.value = View.GONE
-        //contentEnabled.value = true
+        contentEnabled.value = true
     }
 
     fun getOrders(authToken: String): List<Order> {
@@ -139,10 +139,12 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
 
     private fun onRetrieveStart() {
         loadingVisibility.value = View.VISIBLE
+        contentEnabled.value = false
     }
 
     private fun onRetrieveFinish() {
         loadingVisibility.value = View.GONE
+        contentEnabled.value = true
     }
 
 

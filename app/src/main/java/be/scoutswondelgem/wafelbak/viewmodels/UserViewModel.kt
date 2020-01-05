@@ -97,10 +97,12 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private fun onRetrieveStart() {
         loadingVisibility.value = View.VISIBLE
+        contentEnabled.value = false
     }
 
     private fun onRetrieveFinish() {
         loadingVisibility.value = View.GONE
+        contentEnabled.value = true
     }
 
 
