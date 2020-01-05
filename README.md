@@ -67,7 +67,7 @@ From Android Studio:
 This application relies on a REST backend server.
 
 1. Open the `Constants.kt` file located in the `util` package.
-2. Change the value for `BASE_URL` to your own link.
+2. Change the value for `API_URL` to your own link.
 3. Create a new Firebase project and change the `google-services.json` file accordingly.
 
 The sourcecode for this server is located [here](https://github.com/VictorOwnt/WafelbakBackend). The server is hosted by [Heroku](https://www.heroku.com/) [![Heroku Backend Status](http://heroku-shields.herokuapp.com/wafelbak-backend)](https://wafelbak-backend.herokuapp.com).
