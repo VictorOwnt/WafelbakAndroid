@@ -56,6 +56,10 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         val order: Order = orderList[position]
+        if(order.deliveryStatus.status == "Bezorgd") {
+            viewHolder.removeOrderButton.visibility = View.GONE
+            viewHolder.editOrderButton.setImageResource(R.drawable.ic_search_orange_24dp)
+        }
         viewHolder.orderId.setText(R.string.orderId)
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)
         viewHolder.orderIdValue.text = order.orderId.toString()
@@ -65,7 +69,7 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.levertijd
         viewHolder.statusField.setText(R.string.status)
         viewHolder.statusValue.text = order.deliveryStatus.status
-        
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

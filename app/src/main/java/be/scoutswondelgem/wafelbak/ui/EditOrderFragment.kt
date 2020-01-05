@@ -115,6 +115,20 @@ class EditOrderFragment: Fragment() {
 
     private fun fillOrderView(authToken: String, id: Int) {
         val order = orderViewModel.getOrderById(authToken, id)
+        if(order.deliveryStatus.status == "Bezorgd") {
+            twoWafflesChip.isEnabled = false
+            fourWafflesChip.isEnabled = false
+            sixWafflesChip.isEnabled = false
+            eightWafflesChip.isEnabled = false
+            twelveWafflesChip.isEnabled = false
+            twentyWafflesChip.isEnabled = false
+            morningChip.isEnabled = false
+            middayChip.isEnabled = false
+            eveningChip.isEnabled = false
+            idcChip.isEnabled = false
+            commentInput.isEnabled = false
+            saveButton.isEnabled = false
+        }
         orderIdInput.setText(order.orderId.toString())
         when (order.amountOfWaffles) {
             2 -> amountOfWafflesGroup.check(twoWafflesChip.id)
@@ -137,7 +151,7 @@ class EditOrderFragment: Fragment() {
             commentInput.setText("")
         }
 
-        saveButton.setOnClickListener {//TODO passende toast melding en terugkeren naar vorige scherm
+        saveButton.setOnClickListener {
             when (amountOfWafflesGroup.checkedChipId) {
                 twoWafflesChip.id -> order.amountOfWaffles = 2
                 fourWafflesChip.id -> order.amountOfWaffles = 4
