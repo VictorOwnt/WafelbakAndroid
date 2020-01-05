@@ -51,10 +51,37 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    fun isValidEmail(email: String): Boolean {
+    fun editProfile(authToken:String, userId : Int, firstName: String, lastName: String, email: String, password: String, birthday: String, street: String,
+                    streetNumber: Int, streetExtra: String?, postalCode: Int, city: String): User {
         try{
             onRetrieveStart()
-            return userRepository.isValidEmail(email)
+            return userRepository.editProfile(authToken, userId, firstName, lastName, email, password, birthday, street, streetNumber, streetExtra, postalCode, city)
+                .doOnError { error -> onRetrieveError(error) }
+                .blockingGet()
+        } catch (e: Exception) {
+            throw LoginException((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+    }
+
+    fun isValidEmail(email: String, olEmail: String?): Boolean {
+        try{
+            onRetrieveStart()
+            return userRepository.isValidEmail(email, olEmail)
+                .doOnError { error -> onRetrieveError(error) }
+                .blockingGet()
+        } catch (e: Exception) {
+            throw Exception((e as HttpException).response()!!.errorBody()!!.string())
+        } finally {
+            onRetrieveFinish()
+        }
+    }
+
+    fun getUserByEmail(authToken: String, email: String): User {
+        try{
+            onRetrieveStart()
+            return userRepository.getUserByEmail(authToken, email)
                 .doOnError { error -> onRetrieveError(error) }
                 .blockingGet()
         } catch (e: Exception) {

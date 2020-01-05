@@ -30,21 +30,23 @@ interface WafelbakApi {
     /**
      * Gets user by email
      *
+     * @param authToken
      * @param email
      * @return user
      */
     @GET("users/{email}")
-    fun getUserByEmail(@Path("email") email: String): Single<User>
+    fun getUserByEmail(@Header("Authorization") authToken: String, @Path("email") email: String): Single<User>
 
     /**
      * Checks is email is valid and unique
      *
      * @param email
+     * @param oldEmail
      * @return true if valid
      */
     @FormUrlEncoded
     @POST("users/isValidEmail")
-    fun isValidEmail(@Field("email") email: String): Single<Boolean>
+    fun isValidEmail(@Field("email") email: String, @Field("oldEmail") oldEmail: String?): Single<Boolean>
 
     /**
      * Signs in existing users
@@ -87,6 +89,38 @@ interface WafelbakApi {
                  @Field("streetExtra") streetExtra: String?,
                  @Field("postalCode") postalCode: Int,
                  @Field("city") city: String): Single<User>
+
+    /**
+     * Edit user
+     *
+     * @param authToken
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     * @param birthday
+     * @param street
+     * @param streetNumber
+     * @param streetExtra
+     * @param postalCode
+     * @param city
+     * @return user
+     */
+    @FormUrlEncoded
+    @PATCH("users/editProfile")
+    fun editProfile(@Header("Authorization") authToken: String,
+                    @Field("id") id: Int,
+                    @Field("firstName") firstName: String,
+                    @Field("lastName") lastName: String,
+                    @Field("email") email: String,
+                    @Field("password") password: String,
+                    @Field("birthday") birthday: String,
+                    @Field("street") street: String,
+                    @Field("streetNumber") streetNumber: Int,
+                    @Field("streetExtra") streetExtra: String?,
+                    @Field("postalCode") postalCode: Int,
+                    @Field("city") city: String): Single<User>
 
     /**
      * Gets order by id

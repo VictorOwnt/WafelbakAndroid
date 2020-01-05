@@ -1,11 +1,13 @@
 package be.scoutswondelgem.wafelbak.ui
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -120,13 +122,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_edit_profile -> {
                 nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_orders).isChecked = false
-                toolbar.title = "Accountgegevens"
-                // Logout
-                sharedPreferences.edit().clear().apply()
-                // Open AuthActivity
-                val intent = Intent(this, AuthActivity::class.java)
-                startActivity(intent)
-                finish()
+                toolbar.title = "Accountgegevens Aanpassen"
+                openDetailFragment(EditProfileFragment.newInstance())
             }
             R.id.nav_logout -> {
                 // Logout
@@ -146,6 +143,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed() //TODO nav menu check juist ding + titel
+        }
+    }
+
+    fun hideKeyboard() {
+        val inputManager = this
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        // check if no view has focus:
+        val currentFocusedView = this.currentFocus
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
     }
 

@@ -1,6 +1,5 @@
 package be.scoutswondelgem.wafelbak.ui
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -9,31 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import be.scoutswondelgem.wafelbak.databinding.FragmentEditProfileBinding
 import androidx.fragment.app.Fragment
 import be.scoutswondelgem.wafelbak.R
-import be.scoutswondelgem.wafelbak.databinding.FragmentRegisterBinding
 import be.scoutswondelgem.wafelbak.viewmodels.UserViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.nulabinc.zxcvbn.Zxcvbn
-import kotlinx.android.synthetic.main.fragment_register.view.*
+import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
-import javax.security.auth.login.LoginException
 
-class RegisterFragment : Fragment() {
-    //Voor creatie RegisterFragment
+class EditProfileFragment : Fragment() {
+    //Voor creatie EditProfileFragment
     companion object {
         @JvmStatic
-        fun newInstance() = RegisterFragment()
+        fun newInstance() = EditProfileFragment()
     }
 
     //UI elementen
-    private lateinit var titleText: TextView
     private lateinit var emailLayout: TextInputLayout
     private lateinit var emailInput: TextInputEditText
     private lateinit var passwordLayout: TextInputLayout
@@ -56,7 +51,7 @@ class RegisterFragment : Fragment() {
     private lateinit var postalCodeInput: TextInputEditText
     private lateinit var cityLayout: TextInputLayout
     private lateinit var cityInput: TextInputEditText
-    private lateinit var registerButton: Button
+    private lateinit var editButton: Button
 
     //Injecteren:
     private val userViewModel by viewModel<UserViewModel>()
@@ -66,8 +61,8 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentRegisterBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
+        val binding: FragmentEditProfileBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
         binding.userViewModel = userViewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
@@ -77,7 +72,6 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        titleText = view.title_register
         emailLayout = view.inputLayout_email
         emailInput = view.input_email
         passwordLayout = view.inputLayout_password
@@ -100,12 +94,16 @@ class RegisterFragment : Fragment() {
         postalCodeInput = view.input_postalCode
         cityLayout = view.inputLayout_city
         cityInput = view.input_city
-        registerButton = view.button_register
+        editButton = view.button_editProfile
 
-        //OnClickListener register button
-        registerButton.setOnClickListener {
+        fillProfileView(sharedPreferences.getString("TOKEN", "")!!, sharedPreferences.getString("EMAIL", "")!!)
+
+        //OnClickListener edit button
+        editButton.setOnClickListener {
             try {
-                var loggedInUser = userViewModel.register(
+                var loggedInUser = userViewModel.editProfile(
+                    sharedPreferences.getString("TOKEN","")!!,
+                    sharedPreferences.getString("ID", "")!!.toInt(),
                     firstNameInput.text.toString(),
                     lastNameInput.text.toString(),
                     emailInput.text.toString(),
@@ -118,7 +116,7 @@ class RegisterFragment : Fragment() {
                     cityInput.text.toString()
                 )
 
-                // Save logged in user
+                // Save changed sharedPreferences
                 sharedPreferences.edit()
                     .putString("ID", loggedInUser.userId.toString())
                     .putString("EMAIL", loggedInUser.email)
@@ -126,17 +124,16 @@ class RegisterFragment : Fragment() {
                     .putString("LASTNAME", loggedInUser.lastName)
                     .putString("PWD", passwordInput.text.toString())
                     //.putString(SharedPreferencesEnum.IMGURL.string, loggedInUser.imgUrl)
-                    .putBoolean("ADMIN", loggedInUser.isAdmin)
-                    .putString("TOKEN", "Bearer " + loggedInUser.token)
-                    .putBoolean("ISLOGGEDIN", true)
                     .putString("PREFNAME", loggedInUser.firstName + loggedInUser.userId.toString() + loggedInUser.lastName).apply()
-                // Open MainActivity
-                val intent = Intent(activity, MainActivity::class.java)
-                startActivity(intent)
-                (activity as AuthActivity).hideKeyboard()
-                activity!!.finish()
-            } catch (e: LoginException) {
-                (activity as AuthActivity).hideKeyboard()
+                // SucceedAlert
+                AlertDialog.Builder(context!!)
+                    .setTitle("Aanpassen gelukt!")
+                    .setMessage("Je gegevens werden succesvol aangepast en opgeslagen.")
+                    .setPositiveButton(android.R.string.ok, null)
+                    .setIcon(R.drawable.ic_check_green_24dp)
+                    .show()
+            } catch (e: Exception) {
+                (activity as MainActivity).hideKeyboard()
                 AlertDialog.Builder(context!!)
                     .setTitle("Something went wrong")
                     .setMessage(e.message)
@@ -154,8 +151,24 @@ class RegisterFragment : Fragment() {
         birthdayInput.addTextChangedListener(birthdayWatcher)
         streetInput.addTextChangedListener(streetWatcher)
         streetNumberInput.addTextChangedListener(streetNumberWatcher)
+        streetExtraInput.addTextChangedListener(streetExtraWatcher)
         postalCodeInput.addTextChangedListener(postalCodeWatcher)
         cityInput.addTextChangedListener(cityWatcher)
+    }
+
+    private fun fillProfileView(authToken: String, email: String) {
+        val user = userViewModel.getUserByEmail(authToken, email)
+        emailInput.setText(user.email)
+        passwordInput.setText(sharedPreferences.getString("PWD", ""))
+        passwordVerifyInput.setText(sharedPreferences.getString("PWD", ""))
+        firstNameInput.setText(user.firstName)
+        lastNameInput.setText(user.lastName)
+        birthdayInput.setText(user.birthday.toString())
+        streetInput.setText(user.street)
+        streetNumberInput.setText(user.streetNumber.toString())
+        streetExtraInput.setText(user.streetExtra)
+        postalCodeInput.setText(user.postalCode.toString())
+        cityInput.setText(user.city)
     }
 
     private val emailWatcher = object: TextWatcher {
@@ -164,7 +177,7 @@ class RegisterFragment : Fragment() {
         override fun afterTextChanged(s: Editable) {
             emailLayout.error = getString(R.string.required)
             emailLayout.isErrorEnabled = emailInput.text.isNullOrBlank()
-            if (!userViewModel.isValidEmail(emailInput.text.toString(), null)) {
+            if (!userViewModel.isValidEmail(emailInput.text.toString(), sharedPreferences.getString("EMAIL", ""))) {
                 emailLayout.error = getString(R.string.noEmailOrInUse)
                 emailLayout.isErrorEnabled = true
             } else {
@@ -175,7 +188,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
 
     }
@@ -200,7 +213,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -223,7 +236,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -238,7 +251,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -253,7 +266,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -263,12 +276,8 @@ class RegisterFragment : Fragment() {
         override fun afterTextChanged(s: Editable) {
             birthdayLayout.error = getString(R.string.required)
             birthdayLayout.isErrorEnabled = birthdayInput.text.isNullOrBlank()
-            val nonBlank = !(emailInput.text.isNullOrBlank() || passwordInput.text.isNullOrBlank()
-                    || passwordVerifyInput.text.isNullOrBlank() || firstNameInput.text.isNullOrBlank()
-                    || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
-                    || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
-                    || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            val nonBlank = !(birthdayInput.text.isNullOrBlank())
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -283,7 +292,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -298,7 +307,15 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
+        }
+    }
+
+    private val streetExtraWatcher = object: TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable) {
+            editButton.isEnabled = true
         }
     }
 
@@ -313,7 +330,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 
@@ -328,7 +345,7 @@ class RegisterFragment : Fragment() {
                     || lastNameInput.text.isNullOrBlank() || birthdayInput.text.isNullOrBlank()
                     || streetInput.text.isNullOrBlank() || streetNumberInput.text.isNullOrBlank()
                     || postalCodeInput.text.isNullOrBlank() || cityInput.text.isNullOrBlank())
-            registerButton.isEnabled = nonBlank
+            editButton.isEnabled = nonBlank
         }
     }
 

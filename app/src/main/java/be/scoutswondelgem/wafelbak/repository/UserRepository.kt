@@ -19,7 +19,16 @@ class UserRepository(private val wafelbakApi: WafelbakApi, private val userDao: 
         return wafelbakApi.register(firstName, lastName, email, password, birthday, street, streetNumber, streetExtra, postalCode, city)
     }
 
-    fun isValidEmail(email: String): Single<Boolean> {
-        return wafelbakApi.isValidEmail(email)
+    fun isValidEmail(email: String, oldEmail: String?): Single<Boolean> {
+        return wafelbakApi.isValidEmail(email, oldEmail)
+    }
+
+    fun editProfile(authToken:String, id: Int, firstName: String, lastName: String, email: String, password: String, birthday: String, street: String,
+                    streetNumber: Int, streetExtra: String?, postalCode: Int, city: String):Single<User> {
+        return wafelbakApi.editProfile(authToken, id, firstName, lastName, email, password, birthday, street, streetNumber, streetExtra, postalCode, city)
+    }
+
+    fun getUserByEmail(authToken: String, email: String): Single<User> {
+        return wafelbakApi.getUserByEmail(authToken, email)
     }
 }

@@ -73,6 +73,7 @@ class LoginFragment : Fragment() {
                         .putString("EMAIL", loggedInUser.email)
                         .putString("FIRSTNAME", loggedInUser.firstName)
                         .putString("LASTNAME", loggedInUser.lastName)
+                        .putString("PWD", passwordInput.text.toString())
                         //.putString(SharedPreferencesEnum.IMGURL.string, loggedInUser.imgUrl)
                         .putBoolean("ADMIN", loggedInUser.isAdmin)
                         .putString("TOKEN", "Bearer " + loggedInUser.token)
