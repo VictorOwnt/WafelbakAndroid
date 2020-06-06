@@ -17,16 +17,6 @@ data class UserResponseModel(
     var birthday: Date,
     @field:Json(name = "role")
     var role: UserRole,
-
-    //TODO DIT IS ALLEMAAL VAN ADDRESS ==> Embedded address maken of gewoon Address intypen en adapter toeveogen voor address, en address toevoegen in gewone models
-    @field:Json(name = "street")
-    var street: String,
-    @field:Json(name = "streetNumber")
-    var streetNumber: Int,
-    @field:Json(name = "streetExtra")
-    var streetExtra: String?,
-    @field:Json(name = "postalCode")
-    var postalCode: Int,
-    @field:Json(name = "city")
-    var city: String
+    @field:Json(name = "Address")
+    var address: Address
 )

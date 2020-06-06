@@ -1,10 +1,7 @@
 package be.scoutswondelgem.wafelbak.api
 
+import be.scoutswondelgem.wafelbak.api.models.OrderResponseModel
 import be.scoutswondelgem.wafelbak.api.models.UserResponseModel
-import be.scoutswondelgem.wafelbak.models.Order
-import be.scoutswondelgem.wafelbak.models.OrderAndUser
-import be.scoutswondelgem.wafelbak.models.User
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -26,7 +23,7 @@ interface WafelbakApiClient {
      * @return user
      */
     @GET("users/id/{id}")
-    fun getUserById(@Path("id") id: Int): Single<User>
+    fun getUserById(@Path("id") id: Int): Single<UserResponseModel>
 
     /**
      * Gets user by email
@@ -36,7 +33,7 @@ interface WafelbakApiClient {
      * @return user
      */
     @GET("users/{email}")
-    fun getUserByEmail(@Header("Authorization") authToken: String, @Path("email") email: String): Single<User>
+    fun getUserByEmail(@Header("Authorization") authToken: String, @Path("email") email: String): Single<UserResponseModel>
 
     /**
      * Checks is email is valid and unique
@@ -61,7 +58,7 @@ interface WafelbakApiClient {
     fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Single<User>
+    ): Single<UserResponseModel>
 
     /**
      * Registers user
@@ -89,7 +86,7 @@ interface WafelbakApiClient {
                  @Field("streetNumber") streetNumber: Int,
                  @Field("streetExtra") streetExtra: String?,
                  @Field("postalCode") postalCode: Int,
-                 @Field("city") city: String): Single<User>
+                 @Field("city") city: String): Single<UserResponseModel>
 
     /**
      * Edit user
@@ -121,7 +118,7 @@ interface WafelbakApiClient {
                     @Field("streetNumber") streetNumber: Int,
                     @Field("streetExtra") streetExtra: String?,
                     @Field("postalCode") postalCode: Int,
-                    @Field("city") city: String): Single<User>
+                    @Field("city") city: String): Single<UserResponseModel>
 
     /**
      * Gets order by id
@@ -130,7 +127,7 @@ interface WafelbakApiClient {
      * @return order
      */
     @GET("orders/")
-    fun getOrders(@Header("Authorization") authToken: String): Observable<List<Order>>
+    fun getOrders(@Header("Authorization") authToken: String): Single<List<OrderResponseModel>>
 
     /**
      * Gets order by id
@@ -140,7 +137,7 @@ interface WafelbakApiClient {
      * @return order
      */
     @GET("orders/id/{id}")
-    fun getOrderById(@Header("Authorization") authToken: String, @Path("id") id: Int): Single<Order>
+    fun getOrderById(@Header("Authorization") authToken: String, @Path("id") id: Int): Single<OrderResponseModel>
 
     /**
      * Gets orders by userId
@@ -150,8 +147,9 @@ interface WafelbakApiClient {
      * @return order
      */
     @GET("orders/byUserId/{userId}")
-    fun getOrdersByUserId(@Header("Authorization") authToken: String, @Path("userId") userId: Int): Observable<List<Order>>
+    fun getOrdersByUserId(@Header("Authorization") authToken: String, @Path("userId") userId: Int): Single<List<OrderResponseModel>>
 
+    /*
     /**
      * Gets orders joined by users
      *
@@ -159,6 +157,7 @@ interface WafelbakApiClient {
      */
     @GET("orders/joined")
     fun getOrdersJoined(@Header("Authorization") authToken: String): Observable<List<OrderAndUser>>
+    */
 
     /**
      * Gets orders by userEmail
@@ -167,7 +166,7 @@ interface WafelbakApiClient {
      * @return order
      */
     @GET("orders/byUserMail/{email}")
-    fun getOrdersByUserEmail(@Path("email") email: Int): Observable<List<Order>>
+    fun getOrdersByUserEmail(@Path("email") email: Int): Single<List<OrderResponseModel>>
 
     /**
      * Creates order
@@ -185,8 +184,8 @@ interface WafelbakApiClient {
                     @Field("amountOfWaffles") amountOfWaffles: Int,
                     @Field("desiredDeliveryTime") desiredDeliveryTime: String,
                     @Field("comment") comment: String,
-                    @Field("userid") userid: Int): Single<Order>
-
+                    @Field("userid") userid: Int): Single<OrderResponseModel>
+    /*
     /**
      * Updates order
      *
@@ -195,7 +194,7 @@ interface WafelbakApiClient {
      * @return order
      */
     @PATCH("orders/patch")
-    fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
+    fun updateOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<OrderResponseModel>
 
     /**
      * Completes order
@@ -205,7 +204,7 @@ interface WafelbakApiClient {
      * @return order
      */
     @PATCH("orders/complete")
-    fun completeOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
+    fun completeOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<OrderResponseModel>
 
     /**
      * Deletes order
@@ -215,6 +214,6 @@ interface WafelbakApiClient {
      * @return order
      */
     @HTTP(method = "DELETE", path = "orders/delete", hasBody = true)
-    fun deleteOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<Order>
-
+    fun deleteOrder(@Header("Authorization") authToken: String, @Body order: Order) : Single<OrderResponseModel>
+    */
 }
