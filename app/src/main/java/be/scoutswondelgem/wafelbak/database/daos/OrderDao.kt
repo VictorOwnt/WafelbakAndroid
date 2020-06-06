@@ -1,33 +1,42 @@
 package be.scoutswondelgem.wafelbak.database.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import be.scoutswondelgem.wafelbak.models.Order
+import be.scoutswondelgem.wafelbak.database.entities.OrderDataModel
+import io.reactivex.Flowable
 
 @Dao
 interface OrderDao {
-    @Insert
-    fun insert(order: Order)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //this is the correct usage of the insert, this is because of the generated key
+    fun insert(order: OrderDataModel)
 
     @Update
-    fun update(order: Order)
+    fun update(order: OrderDataModel)
 
     @Query("SELECT * from Orders")
-    fun getAllOrders(): LiveData<List<Order>>
+    fun getAllOrders(): Flowable<List<OrderDataModel>>
 
-    @Query("SELECT * FROM Orders WHERE desiredDeliveryTime =:desiredDeliveryTime")
-    fun getOrdersByDesiredDeliveryTime(desiredDeliveryTime: String): LiveData<List<Order>>?
+    @Query("SELECT * FROM Orders WHERE id =:id")
+    fun getOrderById(id: Int): Flowable<OrderDataModel?>
+
+    @Query("SELECT * FROM Orders WHERE status =:status")
+    fun getOrderByStatus(status: String): Flowable<List<OrderDataModel?>>
+
+
+    /* TODO functionaliteit bestaat nog iet op api
+    @Query("SELECT * FROM Orders WHERE desiredOrderTime =:desiredOrderTime")
+    fun getOrdersByDesiredDeliveryTime(desiredOrderTime: String): Flowable<List<OrderDataModel>>?
 
     @Query("SELECT * FROM Orders WHERE amountOfWaffles =:amountOfWaffles")
-    fun getOrdersByAmountOfWaffles(amountOfWaffles: Int): LiveData<List<Order>>?
+    fun getOrdersByAmountOfWaffles(amountOfWaffles: Int): Flowable<List<OrderDataModel>>?
 
     @Query("SELECT COUNT(*) FROM Orders")
     fun getRowCount(): Int
 
-    @Query("DELETE FROM Orders")
+    @Query("DELETE FROM Orders")s
     fun clearTable()
+     */
 
     @Delete
-    fun deleteOrder(order: Order)
+    fun deleteOrder(order: OrderDataModel)
 
 }

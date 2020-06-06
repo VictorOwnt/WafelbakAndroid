@@ -1,4 +1,4 @@
-package be.scoutswondelgem.wafelbak.models
+package be.scoutswondelgem.wafelbak.models.enums
 
 
 enum class DeliveryDate(val levertijd: String) {

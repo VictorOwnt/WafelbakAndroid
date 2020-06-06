@@ -3,17 +3,20 @@ package be.scoutswondelgem.wafelbak.database
 import android.content.Context
 import androidx.room.*
 import be.scoutswondelgem.wafelbak.database.daos.OrderDao
+import be.scoutswondelgem.wafelbak.database.daos.StreetDao
 import be.scoutswondelgem.wafelbak.database.daos.UserDao
-import be.scoutswondelgem.wafelbak.models.Order
-import be.scoutswondelgem.wafelbak.models.User
-import be.scoutswondelgem.wafelbak.util.Converters
+import be.scoutswondelgem.wafelbak.database.daos.ZoneDao
+import be.scoutswondelgem.wafelbak.database.entities.*
+import be.scoutswondelgem.wafelbak.database.utils.*
 
-@Database(entities = [User::class, Order::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(entities = [AddressDataModel::class, CityDataModel::class, OrderDataModel::class, StreetDataModel::class, UserDataModel::class, ZoneDataModel::class], version = 1, exportSchema = false)
+@TypeConverters(AmountOfWafflesConverter::class, DateConverter::class, DeliveryStatusConverter::class, DeliveryTimeConverter::class, UserRoleConverter::class)
 abstract class WafelbakDatabase : RoomDatabase() {
 
     abstract val orderDao: OrderDao
+    abstract val streetDao: StreetDao
     abstract val userDao: UserDao
+    abstract val zoneDao: ZoneDao
 
     companion object {
         @Volatile
@@ -27,7 +30,7 @@ abstract class WafelbakDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         WafelbakDatabase::class.java,
-                        "WafelbakDatabase"
+                        "wafelbak_db"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

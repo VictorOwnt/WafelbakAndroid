@@ -1,26 +1,21 @@
 package be.scoutswondelgem.wafelbak.database.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import be.scoutswondelgem.wafelbak.models.User
+import be.scoutswondelgem.wafelbak.database.entities.UserDataModel
+import io.reactivex.Flowable
 
 @Dao
 interface UserDao {
-    @Insert
-    fun insert(user: User)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun autoUpdate(users: List<User>)
-
-    @Update
-    fun update(user: User)
-
     @Query("SELECT * from Users")
-    fun getAllUsers(): LiveData<List<User>>
+    fun getAllUsers(): Flowable<List<UserDataModel>>
+
+    @Query("SELECT * FROM Users WHERE id =:id")
+    fun getUserById(id: Int): Flowable<UserDataModel?>
 
     @Query("SELECT * FROM Users WHERE email =:mail")
-    fun getUserByEmail(mail: String): User?
+    fun getUserByEmail(mail: String): Flowable<UserDataModel?>
 
+    /* TODO welke functies willen we hieronder ook offline kunnen?
     @Query("SELECT COUNT(*) FROM Users")
     fun getRowCount(): Int
 
@@ -28,6 +23,6 @@ interface UserDao {
     fun clearTable()
 
     @Delete
-    fun deleteUser(user: User)
-
+    fun deleteUser(user: UserDataModel)
+    */
 }
