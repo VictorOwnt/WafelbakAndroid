@@ -1,9 +1,9 @@
 package be.scoutswondelgem.wafelbak.models.enums
 
 
-enum class DeliveryDate(val levertijd: String) {
-    VOORMIDDAG("Voor 12u"),
-    NAMIDDAG("Tussen 13u en 16u"),
-    AVOND("Na 16u"),
-    MAAKTNIETUIT("Het maakt niet uit")
+enum class DeliveryTime(val deliveryTime: String) {
+    MORNING("9u-12u"),
+    AFTERNOON("13u-16u"),
+    EVENING("16u-18u"),
+    DOESNTMATTER("Om het even")
 }

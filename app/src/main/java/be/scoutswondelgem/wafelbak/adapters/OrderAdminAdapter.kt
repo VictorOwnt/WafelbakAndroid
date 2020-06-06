@@ -13,8 +13,7 @@ import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.models.OrderAndUser
 import kotlinx.android.synthetic.main.row_admin_order.view.*
 import android.widget.Filterable
-
-
+import androidx.core.content.ContextCompat
 
 
 class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView.Adapter<OrderAdminAdapter.OrderViewHolder>() ,
@@ -70,7 +69,7 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
         // with that element
         val order: OrderAndUser = orderListFiltered[position]
         if(order.deliveryStatus.status == "Bezorgd") {
-            viewHolder.itemView.setBackgroundColor(R.color.lightGray)
+            viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(viewHolder.itemView.context, R.color.lightGray))
         }
         viewHolder.orderId.setText(R.string.orderId)
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)
@@ -78,7 +77,7 @@ class OrderAdminAdapter(private val orderList: List<OrderAndUser>): RecyclerView
         viewHolder.amountOfWafflesLabel.setText(R.string.amountOfWaffles)
         viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
-        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.levertijd
+        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.deliveryTime
         viewHolder.nameField.setText(R.string.name)
         viewHolder.nameValue.text = (order.user.firstName + " "+ order.user.lastName)
         viewHolder.addressField.setText(R.string.address)

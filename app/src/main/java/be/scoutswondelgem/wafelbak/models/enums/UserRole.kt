@@ -1,5 +1,7 @@
 package be.scoutswondelgem.wafelbak.models.enums
 
-enum class UserRoles(val role: String) {
-    
+enum class UserRole(val role: String) {
+    ADMIN("admin"),
+    MEMBER("member"),
+    USER("user")
 }

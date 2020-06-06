@@ -1,4 +1,4 @@
-package be.scoutswondelgem.wafelbak.adapters
+package be.scoutswondelgem.wafelbak.api.adapters
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
@@ -11,7 +11,7 @@ class DateAdapter {
     private var format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'", Locale.getDefault())
 
     @ToJson
-    internal fun toJson(date: Date): String {
+    internal fun dateToJson(date: Date): String {
         return format.format(date)
     }
 

@@ -1,6 +1,6 @@
-package be.scoutswondelgem.wafelbak.adapters
+package be.scoutswondelgem.wafelbak.api.adapters
 
-import be.scoutswondelgem.wafelbak.models.DeliveryStatus
+import be.scoutswondelgem.wafelbak.models.enums.DeliveryStatus
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
@@ -13,9 +13,9 @@ class DeliveryStatusAdapter {
     @FromJson
     internal fun fromJson(json: String): DeliveryStatus? {
         when(json) {
-            "Te Bezorgen" -> return DeliveryStatus.NIETGELEVERD
-            "Bezorgd" -> return DeliveryStatus.WELGELEVERD
-            else -> return DeliveryStatus.NIETGELEVERD
+            "Te Bezorgen" -> return DeliveryStatus.NOTDELIVERED
+            "Bezorgd" -> return DeliveryStatus.DELIVERED
+            else -> return DeliveryStatus.NOTDELIVERED
         }
     }
 }

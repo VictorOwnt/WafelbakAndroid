@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.adapters.OrderAdminAdapter
 import be.scoutswondelgem.wafelbak.databinding.FragmentAllOrderBinding
-import be.scoutswondelgem.wafelbak.models.DeliveryStatus
+import be.scoutswondelgem.wafelbak.models.enums.DeliveryStatus
 import be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mancj.materialsearchbar.MaterialSearchBar
@@ -86,7 +86,7 @@ class AllOrderFragment : Fragment() {
         // automatically handle clicks on the Home/Up button.
         when (item.itemId) {
             R.id.action_stats -> {
-                fragmentManager!!.beginTransaction()
+               activity?.supportFragmentManager!!.beginTransaction()
                     .replace(R.id.main_content_container, StatisticsFragment.newInstance(), "StatisticsFragment")
                     .addToBackStack("AllOrderFragment")
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -109,9 +109,9 @@ class AllOrderFragment : Fragment() {
                 val order = orderViewModel.getOrderById(authToken, orderAndUser.orderId)
                 when(order.deliveryStatus.status) {
                     "Te Bezorgen"-> {
-                        order.deliveryStatus = DeliveryStatus.WELGELEVERD
+                        order.deliveryStatus = DeliveryStatus.DELIVERED
                         orderViewModel.completeOrder(authToken, order)
-                        fragmentManager!!.beginTransaction()
+                        activity?.supportFragmentManager!!.beginTransaction()
                             .replace(R.id.main_content_container, newInstance(), "AllOrderFragment")
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()
@@ -130,9 +130,9 @@ class AllOrderFragment : Fragment() {
                             }
                             .setPositiveButton("Ja") {
                                     dialog, id -> dialog.dismiss()
-                                order.deliveryStatus = DeliveryStatus.NIETGELEVERD
+                                order.deliveryStatus = DeliveryStatus.NOTDELIVERED
                                 orderViewModel.completeOrder(authToken, order)
-                                fragmentManager!!.beginTransaction()
+                                activity?.supportFragmentManager!!.beginTransaction()
                                     .replace(R.id.main_content_container, newInstance(), "AllOrderFragment")
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                     .commit()
@@ -158,7 +158,7 @@ class AllOrderFragment : Fragment() {
                     .setPositiveButton("Ja") {
                             dialog, id -> dialog.dismiss()
                         val deletedOrder = orderViewModel.deleteOrder(authToken, order)
-                        fragmentManager!!.beginTransaction()
+                        activity?.supportFragmentManager!!.beginTransaction()
                             .replace(R.id.main_content_container, newInstance(), "AllOrderFragment")
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()

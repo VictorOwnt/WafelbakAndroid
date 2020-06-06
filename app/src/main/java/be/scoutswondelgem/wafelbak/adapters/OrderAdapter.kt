@@ -66,7 +66,7 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         viewHolder.amountOfWafflesLabel.setText(R.string.amountOfWaffles)
         viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
-        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.levertijd
+        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.deliveryTime
         viewHolder.statusField.setText(R.string.status)
         viewHolder.statusValue.text = order.deliveryStatus.status
 

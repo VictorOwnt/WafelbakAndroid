@@ -2,7 +2,6 @@ package be.scoutswondelgem.wafelbak.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.MutableLiveData
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.databinding.FragmentEditOrderBinding
-import be.scoutswondelgem.wafelbak.models.DeliveryDate
+import be.scoutswondelgem.wafelbak.models.enums.DeliveryTime
 import be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -138,10 +135,10 @@ class EditOrderFragment: Fragment() {
             20 -> amountOfWafflesGroup.check(twentyWafflesChip.id)
         }
         when (order.desiredDeliveryTime) {
-            DeliveryDate.VOORMIDDAG -> desiredDeliveryTimeGroup.check(morningChip.id)
-            DeliveryDate.NAMIDDAG -> desiredDeliveryTimeGroup.check(middayChip.id)
-            DeliveryDate.AVOND-> desiredDeliveryTimeGroup.check(eveningChip.id)
-            DeliveryDate.MAAKTNIETUIT -> desiredDeliveryTimeGroup.check(idcChip.id)
+            DeliveryTime.VOORMIDDAG -> desiredDeliveryTimeGroup.check(morningChip.id)
+            DeliveryTime.NAMIDDAG -> desiredDeliveryTimeGroup.check(middayChip.id)
+            DeliveryTime.AVOND-> desiredDeliveryTimeGroup.check(eveningChip.id)
+            DeliveryTime.MAAKTNIETUIT -> desiredDeliveryTimeGroup.check(idcChip.id)
         }
         if(order.comment !== null)
         {
@@ -160,10 +157,10 @@ class EditOrderFragment: Fragment() {
                 twentyWafflesChip.id -> order.amountOfWaffles = 20
             }
             when (desiredDeliveryTimeGroup.checkedChipId) {
-                morningChip.id -> order.desiredDeliveryTime = DeliveryDate.VOORMIDDAG
-                middayChip.id -> order.desiredDeliveryTime = DeliveryDate.NAMIDDAG
-                eveningChip.id -> order.desiredDeliveryTime = DeliveryDate.AVOND
-                idcChip.id -> order.desiredDeliveryTime = DeliveryDate.MAAKTNIETUIT
+                morningChip.id -> order.desiredDeliveryTime = DeliveryTime.VOORMIDDAG
+                middayChip.id -> order.desiredDeliveryTime = DeliveryTime.NAMIDDAG
+                eveningChip.id -> order.desiredDeliveryTime = DeliveryTime.AVOND
+                idcChip.id -> order.desiredDeliveryTime = DeliveryTime.MAAKTNIETUIT
             }
             if(commentInput.text !== null)
             {

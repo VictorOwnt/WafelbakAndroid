@@ -3,7 +3,7 @@ package be.scoutswondelgem.wafelbak.viewmodels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import be.scoutswondelgem.wafelbak.models.DeliveryDate
+import be.scoutswondelgem.wafelbak.models.enums.DeliveryTime
 import be.scoutswondelgem.wafelbak.models.Order
 import be.scoutswondelgem.wafelbak.models.OrderAndUser
 import be.scoutswondelgem.wafelbak.repository.OrderRepository
@@ -119,7 +119,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    fun createOrder(authToken: String, amountOfWaffles: Int, desiredDeliveryTime: DeliveryDate, comment: String, userId: Int): Order {
+    fun createOrder(authToken: String, amountOfWaffles: Int, desiredDeliveryTime: DeliveryTime, comment: String, userId: Int): Order {
         try {
             onRetrieveStart()
             return orderRepository.createOrder(authToken, amountOfWaffles, desiredDeliveryTime, comment, userId)

@@ -2,12 +2,14 @@ package be.scoutswondelgem.wafelbak.injection.modules
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import be.scoutswondelgem.wafelbak.api.WafelbakApi
+import android.net.NetworkCapabilities
+import android.os.Build
+import be.scoutswondelgem.wafelbak.api.WafelbakApiClient
 import be.scoutswondelgem.wafelbak.util.Constants
-import be.scoutswondelgem.wafelbak.adapters.DateAdapter
-import be.scoutswondelgem.wafelbak.adapters.DeliveryStatusAdapter
-import be.scoutswondelgem.wafelbak.adapters.DeliveryTimeAdapter
+import be.scoutswondelgem.wafelbak.api.adapters.DateAdapter
+import be.scoutswondelgem.wafelbak.api.adapters.DeliveryStatusAdapter
+import be.scoutswondelgem.wafelbak.api.adapters.DeliveryTimeAdapter
+import be.scoutswondelgem.wafelbak.api.adapters.UserRoleAdapter
 import com.squareup.moshi.Moshi
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
@@ -24,13 +26,25 @@ val networkModule = module {
 }
 
 fun provideOkHttpClient(context: Context): OkHttpClient {
-    fun hasNetwork(context: Context): Boolean? {
-        var isConnected: Boolean? = false // Initial Value
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-        if (activeNetwork != null && activeNetwork.isConnected)
-            isConnected = true
-        return isConnected
+    fun checkNetworkState(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //for other devices who are able to connect with Ethernet
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //for check internet over Bluetooth
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
+            }
+        } else {
+            val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+            return nwInfo.isConnected
+        }
     }
 
     val cacheSize = (5 * 1024 * 1024).toLong()
@@ -50,7 +64,7 @@ fun provideOkHttpClient(context: Context): OkHttpClient {
             *  we initialize the request and change its header depending on whether
             *  the device is connected to Internet or not.
             */
-            request = if (hasNetwork(context)!!)
+            request = if (checkNetworkState(context))
             /*
             *  If there is Internet, get the cache that was stored 5 seconds ago.
             *  If the cache is older than 5 seconds, then discard it,
@@ -77,8 +91,9 @@ fun provideOkHttpClient(context: Context): OkHttpClient {
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     val moshi = Moshi.Builder()
         .add(DateAdapter())
-        .add(DeliveryTimeAdapter())
         .add(DeliveryStatusAdapter())
+        .add(DeliveryTimeAdapter())
+        .add(UserRoleAdapter())
         .build()
 
     return Retrofit.Builder().baseUrl(Constants.API_URL).client(okHttpClient)
@@ -86,6 +101,6 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
             Schedulers.io())).build()
 }
 
-fun provideWafelbakApi(retrofit: Retrofit): WafelbakApi {
-    return retrofit.create(WafelbakApi::class.java)
+fun provideWafelbakApi(retrofit: Retrofit): WafelbakApiClient {
+    return retrofit.create(WafelbakApiClient::class.java)
 }

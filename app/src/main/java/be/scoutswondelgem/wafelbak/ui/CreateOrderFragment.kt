@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import be.scoutswondelgem.wafelbak.R
 import be.scoutswondelgem.wafelbak.databinding.FragmentCreateOrderBinding
-import be.scoutswondelgem.wafelbak.models.DeliveryDate
+import be.scoutswondelgem.wafelbak.models.enums.DeliveryTime
 import be.scoutswondelgem.wafelbak.viewmodels.OrderViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -102,12 +102,12 @@ class CreateOrderFragment: Fragment() {
             twelveWafflesChip.id -> amountOfWaffles = 12
             twentyWafflesChip.id -> amountOfWaffles = 20
         }
-        var desiredDeliveryTime: DeliveryDate = DeliveryDate.MAAKTNIETUIT
+        var desiredDeliveryTime: DeliveryTime = DeliveryTime.MAAKTNIETUIT
         when (desiredDeliveryTimeGroup.checkedChipId) {
-            morningChip.id -> desiredDeliveryTime = DeliveryDate.VOORMIDDAG
-            middayChip.id -> desiredDeliveryTime = DeliveryDate.NAMIDDAG
-            eveningChip.id -> desiredDeliveryTime = DeliveryDate.AVOND
-            idcChip.id -> desiredDeliveryTime = DeliveryDate.MAAKTNIETUIT
+            morningChip.id -> desiredDeliveryTime = DeliveryTime.VOORMIDDAG
+            middayChip.id -> desiredDeliveryTime = DeliveryTime.NAMIDDAG
+            eveningChip.id -> desiredDeliveryTime = DeliveryTime.AVOND
+            idcChip.id -> desiredDeliveryTime = DeliveryTime.MAAKTNIETUIT
         }
         var comment: String = ""
         if(commentInput.text !== null)

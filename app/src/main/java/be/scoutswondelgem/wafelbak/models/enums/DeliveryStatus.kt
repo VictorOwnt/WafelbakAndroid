@@ -1,6 +1,6 @@
-package be.scoutswondelgem.wafelbak.models
+package be.scoutswondelgem.wafelbak.models.enums
 
 enum class DeliveryStatus(val status: String) {
-    NIETGELEVERD("Te Bezorgen"),
-    WELGELEVERD("Bezorgd"),
+    NOTDELIVERED("Te Bezorgen"),
+    DELIVERED("Bezorgd"),
 }

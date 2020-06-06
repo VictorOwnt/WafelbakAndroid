@@ -1,6 +1,6 @@
 package be.scoutswondelgem.wafelbak.injection.modules
 
-import be.scoutswondelgem.wafelbak.api.WafelbakApi
+import be.scoutswondelgem.wafelbak.api.WafelbakApiClient
 import be.scoutswondelgem.wafelbak.database.daos.OrderDao
 import be.scoutswondelgem.wafelbak.database.daos.UserDao
 import be.scoutswondelgem.wafelbak.repository.OrderRepository
@@ -13,11 +13,11 @@ val repositoryModule = module {
     factory { provideOrderRepository(get(), get()) }
 }
 
-fun provideUserRepository(api: WafelbakApi, dao: UserDao): UserRepository {
-    return UserRepository(api, dao)
+fun provideUserRepository(apiClient: WafelbakApiClient, dao: UserDao): UserRepository {
+    return UserRepository(apiClient, dao)
 }
 
-fun provideOrderRepository(api: WafelbakApi, dao: OrderDao): OrderRepository {
-    return OrderRepository(api, dao)
+fun provideOrderRepository(apiClient: WafelbakApiClient, dao: OrderDao): OrderRepository {
+    return OrderRepository(apiClient, dao)
 }
 

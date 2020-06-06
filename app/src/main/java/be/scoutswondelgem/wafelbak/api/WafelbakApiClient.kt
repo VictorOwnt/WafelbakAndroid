@@ -1,5 +1,6 @@
 package be.scoutswondelgem.wafelbak.api
 
+import be.scoutswondelgem.wafelbak.api.models.UserResponseModel
 import be.scoutswondelgem.wafelbak.models.Order
 import be.scoutswondelgem.wafelbak.models.OrderAndUser
 import be.scoutswondelgem.wafelbak.models.User
@@ -7,7 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
 
-interface WafelbakApi {
+interface WafelbakApiClient {
 
     /**
      * Gets all users
@@ -16,7 +17,7 @@ interface WafelbakApi {
      * @return list of all users
      */
     @GET("users/")
-    fun getUsers(): Observable<List<User>>
+    fun getUsers(): Single<List<UserResponseModel>> //returns only one object, a list so can be Single instead of Observable
 
     /**
      * Gets user by id
