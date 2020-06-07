@@ -3,7 +3,7 @@ package be.scoutswondelgem.wafelbak.viewmodels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import be.scoutswondelgem.wafelbak.models.User
+import be.scoutswondelgem.wafelbak.api.models.responses.AuthResponseModel
 import be.scoutswondelgem.wafelbak.repository.UserRepository
 import com.orhanobut.logger.Logger
 import io.reactivex.disposables.CompositeDisposable
@@ -24,7 +24,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         contentEnabled.value = true
     }
 
-    fun login(email: String, password: String): User {
+    fun login(email: String, password: String): AuthResponseModel {
         try{
             onRetrieveStart()
             return userRepository.login(email, password)
@@ -38,7 +38,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
     }
 
     fun register(firstName: String, lastName: String, email: String, password: String, birthday: String, street: String,
-                 streetNumber: Int, streetExtra: String?, postalCode: Int, city: String): User {
+                 streetNumber: Int, streetExtra: String?, postalCode: Int, city: String): AuthResponseModel {
         try{
             onRetrieveStart()
             return userRepository.register(firstName, lastName, email, password, birthday, street, streetNumber, streetExtra, postalCode, city)
@@ -50,7 +50,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             onRetrieveFinish()
         }
     }
-
+    /*
     fun editProfile(authToken:String, userId : Int, firstName: String, lastName: String, email: String, password: String, birthday: String, street: String,
                     streetNumber: Int, streetExtra: String?, postalCode: Int, city: String): User {
         try{
@@ -63,7 +63,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         } finally {
             onRetrieveFinish()
         }
-    }
+    }*/
 
     fun isValidEmail(email: String, olEmail: String?): Boolean {
         try{
@@ -77,7 +77,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             onRetrieveFinish()
         }
     }
-
+    /*
     fun getUserByEmail(authToken: String, email: String): User {
         try{
             onRetrieveStart()
@@ -89,7 +89,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         } finally {
             onRetrieveFinish()
         }
-    }
+    } */
 
     private fun onRetrieveError(error: Throwable) {
         Logger.e(error.message!!)

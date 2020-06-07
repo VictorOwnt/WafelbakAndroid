@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
-import be.scoutswondelgem.wafelbak.models.Order
+import be.scoutswondelgem.wafelbak.api.models.responses.OrderResponseModel
 import kotlinx.android.synthetic.main.row_order.view.*
 
 
 
-class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
+class OrderAdapter(private val orderList: List<OrderResponseModel>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
     //for the transaction of fragments
-    var onItemClick: ((Order) -> Unit)? = null
-    var onItemClick2: ((Order) -> Unit)? = null
+    var onItemClick: ((OrderResponseModel) -> Unit)? = null
+    var onItemClick2: ((OrderResponseModel) -> Unit)? = null
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -55,8 +54,8 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
     override fun onBindViewHolder(viewHolder: OrderViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-        val order: Order = orderList[position]
-        if(order.deliveryStatus.status == "Bezorgd") {
+        val order: OrderResponseModel = orderList[position]
+        if(order.status.status == "Bezorgd") {
             viewHolder.removeOrderButton.visibility = View.GONE
             viewHolder.editOrderButton.setImageResource(R.drawable.ic_search_orange_24dp)
         }
@@ -64,11 +63,11 @@ class OrderAdapter(private val orderList: List<Order>): RecyclerView.Adapter<Ord
         viewHolder.orderId.setTypeface(null, Typeface.BOLD)
         viewHolder.orderIdValue.text = order.orderId.toString()
         viewHolder.amountOfWafflesLabel.setText(R.string.amountOfWaffles)
-        viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.toString()
+        viewHolder.amountOfWafflesValue.text = order.amountOfWaffles.amount.toString()
         viewHolder.desiredDeliveryTimeLabel.setText(R.string.desiredDeliveryTime)
-        viewHolder.desiredDeliveryTimeValue.text = order.desiredDeliveryTime.deliveryTime
+        viewHolder.desiredDeliveryTimeValue.text = order.desiredOrderTime.deliveryTime
         viewHolder.statusField.setText(R.string.status)
-        viewHolder.statusValue.text = order.deliveryStatus.status
+        viewHolder.statusValue.text = order.status.status
 
     }
 

@@ -171,8 +171,8 @@
                             android:layout_height="wrap_content"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/midday"
-                            android:text="@string/midday"
+                            android:id="@+id/afternoon"
+                            android:text="@string/afternoon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/Widget.MaterialComponents.Chip.Filter"/>

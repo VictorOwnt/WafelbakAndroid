@@ -7,11 +7,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.scoutswondelgem.wafelbak.R
@@ -67,18 +64,18 @@ class OrderFragment : Fragment() {
         addOrderTextView = view.addOrder
         addOrderButton = view.button_addOrder
         noOrdersTextView = view.noOrdersYet
-        fillListView(sharedPreferences.getString("TOKEN", "")!!, sharedPreferences.getString("ID", "")!!.toInt())
+        fillListView(sharedPreferences.getString("TOKEN", "")!!/*, sharedPreferences.getString("ID", "")!!.toInt()*/)
         addOrderButton.setOnClickListener {
-            fragmentManager!!.beginTransaction()
+            /*activity?.supportFragmentManager!!.beginTransaction()
                 .replace(R.id.main_content_container, CreateOrderFragment.newInstance(), "CreateOrderFragment")
                 .setTransition((FragmentTransaction.TRANSIT_FRAGMENT_OPEN))
                 .addToBackStack("OrderFragment")
-                .commit()
+                .commit()*/
         }
     }
 
-    private fun fillListView(authToken: String, id: Int){
-        val orders = orderViewModel.getOrdersForCurrentUser(authToken, id)
+    private fun fillListView(authToken: String/*, id: Int*/){
+        val orders =  orderViewModel.getOrdersForCurrentUser(authToken/*, id*/)
         if (orders.isNotEmpty())
         {
             noOrdersTextView.visibility = GONE
@@ -86,14 +83,14 @@ class OrderFragment : Fragment() {
             linearLayoutManager = LinearLayoutManager(activity)
             orderRecyclerView.layoutManager = linearLayoutManager
             val adapter = OrderAdapter(orders)
-            adapter.onItemClick = { order ->
-                fragmentManager!!.beginTransaction()
+            /*adapter.onItemClick = { order ->
+                activity?.supportFragmentManager!!.beginTransaction()
                     .replace(R.id.main_content_container, EditOrderFragment.newInstance(order.orderId), "EditOrderFragment")
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .addToBackStack("OrderFragment")
                     .commit()
-            }
-            adapter.onItemClick2 = { order ->
+            }*/
+            /*adapter.onItemClick2 = { order ->
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setCancelable(true)
                     .setNegativeButton("Nee") {
@@ -102,7 +99,7 @@ class OrderFragment : Fragment() {
                     .setPositiveButton("Ja") {
                             dialog, id -> dialog.dismiss()
                         val deletedOrder = orderViewModel.deleteOrder(authToken, order)
-                        fragmentManager!!.beginTransaction()
+                        activity?.supportFragmentManager!!.beginTransaction()
                             .replace(R.id.main_content_container, newInstance(), "OrderFragment")
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()
@@ -116,7 +113,7 @@ class OrderFragment : Fragment() {
                 val alert = dialogBuilder.create()
                 alert.setTitle("Ben je zeker dat je bestelling " + order.orderId + " wilt verwijderen?")
                 alert.show()
-            }
+            }*/
             orderRecyclerView.adapter = adapter
         }
     }

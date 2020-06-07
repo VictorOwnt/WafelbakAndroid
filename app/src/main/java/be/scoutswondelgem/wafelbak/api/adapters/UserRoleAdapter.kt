@@ -1,6 +1,6 @@
 package be.scoutswondelgem.wafelbak.api.adapters
 
-import be.scoutswondelgem.wafelbak.models.enums.UserRole
+import be.scoutswondelgem.wafelbak.api.models.enums.UserRole
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 

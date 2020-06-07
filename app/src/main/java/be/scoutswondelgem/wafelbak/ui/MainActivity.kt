@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //Injecteren:
     private val sharedPreferences: SharedPreferences = get()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {        //hierin invokeRepositoryToCallApi
         super.onCreate(savedInstanceState)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             nav_view.menu.findItem(R.id.nav_orders).isChecked = true
             nav_view.menu.performIdentifierAction(R.id.nav_orders, 0)
         }
-        if (!sharedPreferences.getBoolean("ADMIN", false)) {
+        if (sharedPreferences.getString("ROLE", "user") != "admin") {
             val item = nav_view.menu.findItem(R.id.nav_all_orders)
             item.isVisible = false
         }
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 toolbar.title = "Mijn Bestellingen"
                 openDetailFragment(OrderFragment.newInstance(), "OrderFragment")
             }
-            R.id.nav_all_orders -> {
+            /*R.id.nav_all_orders -> {
                 nav_view.menu.findItem(R.id.nav_orders).isChecked = false
                 nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
                 toolbar.title = "Alle Bestellingen"
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
+            }*/
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
                     nav_view.menu.findItem(R.id.nav_orders).isChecked = true
                 }
-                "AllOrderFragment" -> {
+                /*"AllOrderFragment" -> {
                     toolbar.title = "Alle Bestellingen"
                     nav_view.menu.findItem(R.id.nav_all_orders).isChecked = true
                     nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = false
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     nav_view.menu.findItem(R.id.nav_all_orders).isChecked = false
                     nav_view.menu.findItem(R.id.nav_edit_profile).isChecked = true
                     nav_view.menu.findItem(R.id.nav_orders).isChecked = false
-                }
+                }*/
             }
         }
     }

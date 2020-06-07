@@ -5,6 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class City(
+    @field:Json(name = "id")
+    var cityId: Int,
     @field:Json(name = "cityName")
     var cityName: String,
     @field:Json(name = "postalCode")

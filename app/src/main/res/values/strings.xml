@@ -34,10 +34,10 @@
     <string name="twelveWaffles">12</string>
     <string name="twentyWaffles">20</string>
     <string name="comments">Opmerkingen:</string>
-    <string name="morning">Voor 12u</string>
-    <string name="midday">Tussen 13u en 16u</string>
-    <string name="evening">Na 16u</string>
-    <string name="idc">Het maakt niet uit</string>
+    <string name="morning">9u-12u</string>
+    <string name="afternoon">13u-16u</string>
+    <string name="evening">16u-18u</string>
+    <string name="idc">Om het even</string>
     <string name="action_save">Opslaan</string>
     <string name="back">Terugkeren</string>
     <string name="order_create">Bestelling plaatsen</string>

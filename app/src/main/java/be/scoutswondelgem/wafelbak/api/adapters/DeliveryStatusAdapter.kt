@@ -1,6 +1,6 @@
 package be.scoutswondelgem.wafelbak.api.adapters
 
-import be.scoutswondelgem.wafelbak.models.enums.DeliveryStatus
+import be.scoutswondelgem.wafelbak.api.models.enums.DeliveryStatus
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 

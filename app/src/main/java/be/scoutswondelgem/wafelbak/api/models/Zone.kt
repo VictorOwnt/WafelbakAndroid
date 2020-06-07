@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Zone(
-    @field:Json(name = "id") //TODO hier staat wel id omdat dit in backend ook zo is, aanpassen in backend
+    @field:Json(name = "id")
     var zoneId: Int,
     @field:Json(name = "zoneName")
     var zoneName: String

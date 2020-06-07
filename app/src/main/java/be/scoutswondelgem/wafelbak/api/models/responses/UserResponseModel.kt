@@ -1,9 +1,12 @@
-package be.scoutswondelgem.wafelbak.api.models
+package be.scoutswondelgem.wafelbak.api.models.responses
 
-import be.scoutswondelgem.wafelbak.models.enums.UserRole
+import be.scoutswondelgem.wafelbak.api.models.Address
+import be.scoutswondelgem.wafelbak.api.models.enums.UserRole
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.*
 
+@JsonClass(generateAdapter = true)
 data class UserResponseModel(
     @field:Json(name = "id")
     var userId: Int,

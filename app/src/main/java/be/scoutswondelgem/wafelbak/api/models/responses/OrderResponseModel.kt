@@ -1,10 +1,13 @@
-package be.scoutswondelgem.wafelbak.api.models
+package be.scoutswondelgem.wafelbak.api.models.responses
 
-import be.scoutswondelgem.wafelbak.models.enums.AmountOfWaffles
-import be.scoutswondelgem.wafelbak.models.enums.DeliveryStatus
-import be.scoutswondelgem.wafelbak.models.enums.DeliveryTime
+import be.scoutswondelgem.wafelbak.api.models.Address
+import be.scoutswondelgem.wafelbak.api.models.enums.AmountOfWaffles
+import be.scoutswondelgem.wafelbak.api.models.enums.DeliveryStatus
+import be.scoutswondelgem.wafelbak.api.models.enums.DeliveryTime
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class OrderResponseModel(
     @field:Json(name = "id")
     var orderId: Int,

@@ -10,5 +10,5 @@ val sharedPreferencesModule = module {
 }
 
 fun provideSharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(SharedPreferencesEnum.PREFNAME.string, Context.MODE_PRIVATE)
+        return context.getSharedPreferences(SharedPreferencesEnum.ID.string, Context.MODE_PRIVATE)
 }

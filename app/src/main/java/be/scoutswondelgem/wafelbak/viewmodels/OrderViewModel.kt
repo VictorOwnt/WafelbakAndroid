@@ -3,16 +3,15 @@ package be.scoutswondelgem.wafelbak.viewmodels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import be.scoutswondelgem.wafelbak.models.enums.DeliveryTime
-import be.scoutswondelgem.wafelbak.models.Order
-import be.scoutswondelgem.wafelbak.models.OrderAndUser
+import be.scoutswondelgem.wafelbak.api.models.responses.OrderResponseModel
 import be.scoutswondelgem.wafelbak.repository.OrderRepository
 import com.orhanobut.logger.Logger
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.lang.Exception
 
-class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
+class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {      //INJECTEREN IPV ALS ARGUMENT MET CONSTRUCTOR
     //LoadingVisibility:
     val loadingVisibility = MutableLiveData<Int>()
     val contentEnabled = MutableLiveData<Boolean>()
@@ -24,7 +23,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         loadingVisibility.value = View.GONE
         contentEnabled.value = true
     }
-
+    /*
     fun getOrders(authToken: String): List<Order> {
         try{
             onRetrieveStart()
@@ -51,14 +50,15 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         } finally {
             onRetrieveFinish()
         }
-    }
+    }*/
 
-    fun getOrdersForCurrentUser(authToken: String, id: Int): List<Order> {
+
+    fun getOrdersForCurrentUser(authToken: String/*, id: Int*/): List<OrderResponseModel> {
         try{
             onRetrieveStart()
-            return orderRepository.getOrdersForUser(authToken, id)
+            return orderRepository.getOrdersForUser(authToken/*, id*/)
                 .doOnError {error -> onRetrieveError(error)}
-                .blockingFirst()
+                .blockingGet()
         } catch (e : Exception) {
             Logger.e((e as HttpException).response()!!.errorBody()!!.string())
             return emptyList()
@@ -66,7 +66,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
             onRetrieveFinish()
         }
     }
-
+    /*
     fun getOrderById(authToken : String, id:Int): Order {
         try{
             onRetrieveStart()
@@ -130,7 +130,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         } finally {
             onRetrieveFinish()
         }
-    }
+    }*/
 
     private fun onRetrieveError(error: Throwable) {
         Logger.e(error.message!!)

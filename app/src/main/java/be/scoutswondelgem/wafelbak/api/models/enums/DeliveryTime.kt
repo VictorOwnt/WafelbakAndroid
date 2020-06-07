@@ -1,4 +1,4 @@
-package be.scoutswondelgem.wafelbak.models.enums
+package be.scoutswondelgem.wafelbak.api.models.enums
 
 
 enum class DeliveryTime(val deliveryTime: String) {

@@ -133,48 +133,52 @@
                         app:layout_constraintTop_toBottomOf="@+id/amountOfWafflesGroup" />
 
                     <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/desiredDeliveryTimeGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/desiredDeliveryTimeGroup"
                         android:layout_marginStart="@dimen/default_horizontal_margin"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="@dimen/default_horizontal_margin"
-                        android:layout_marginTop="@dimen/default_vertical_margin"
-                        app:singleSelection="true"
                         app:checkedChip="@id/morning"
                         app:chipSpacingHorizontal="@dimen/default_horizontal_margin"
                         app:chipSpacingVertical="@dimen/default_vertical_margin"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/desiredDeliveryTimeLabel"
-                        >
+                        app:singleSelection="true">
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/morning"
-                            android:text="@string/morning"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                            android:text="@string/morning" />
+
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/midday"
-                            android:text="@string/midday"
+                            android:id="@+id/afternoon"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                            android:text="@string/afternoon" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/evening"
-                            android:text="@string/evening"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                            android:text="@string/evening" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/idc"
-                            android:text="@string/idc"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:enabled="@{safeUnbox(orderViewModel.contentEnabled)}"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+                            android:text="@string/idc" />
 
                     </com.google.android.material.chip.ChipGroup>
 

@@ -68,17 +68,24 @@ class LoginFragment : Fragment() {
                     )
 
                     // Save logged in user
-                    sharedPreferences.edit()
-                        .putString("ID", loggedInUser.userId.toString())
-                        .putString("EMAIL", loggedInUser.email)
-                        .putString("FIRSTNAME", loggedInUser.firstName)
-                        .putString("LASTNAME", loggedInUser.lastName)
-                        .putString("PWD", passwordInput.text.toString())
-                        //.putString(SharedPreferencesEnum.IMGURL.string, loggedInUser.imgUrl)
-                        .putBoolean("ADMIN", loggedInUser.isAdmin)
-                        .putString("TOKEN", "Bearer " + loggedInUser.token)
-                        .putBoolean("ISLOGGEDIN", true)
-                        .putString("PREFNAME", loggedInUser.firstName + loggedInUser.userId.toString() + loggedInUser.lastName).apply()
+                    if (loggedInUser.role.role == "user")
+                    {
+                        sharedPreferences.edit()
+                            .putString("ID", loggedInUser.userId.toString())
+                            .putString("EMAIL", loggedInUser.email)
+                            .putString("FIRSTNAME", loggedInUser.firstName)
+                            .putString("LASTNAME", loggedInUser.lastName)
+                            .putString("ROLE", loggedInUser.role.role)
+                            .putString("TOKEN", "Bearer " + loggedInUser.token)
+                            .putBoolean("ISLOGGEDIN", true).apply()
+                    } else {
+                        sharedPreferences.edit()
+                            .putString("ID", loggedInUser.userId.toString())
+                            .putString("EMAIL", loggedInUser.email)
+                            .putString("ROLE", loggedInUser.role.role)
+                            .putString("TOKEN", "Bearer " + loggedInUser.token)
+                            .putBoolean("ISLOGGEDIN", true).apply()
+                    }
                     // Open MainActivity
                     val intent = Intent(activity, MainActivity::class.java)
                     startActivity(intent)
@@ -97,7 +104,7 @@ class LoginFragment : Fragment() {
 
         // OnClickListener register button
         registerButton.setOnClickListener{
-            fragmentManager!!.beginTransaction()
+            activity?.supportFragmentManager!!.beginTransaction()
                 .replace(R.id.auth_content_container, RegisterFragment.newInstance())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack("LoginFragment")
