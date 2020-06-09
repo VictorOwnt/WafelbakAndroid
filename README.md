@@ -7,8 +7,8 @@ The 'Wafelbak' Android application is an application made to facilitate the proc
 Users can log in and add there orders from anywhere, they don't have to worry that they'll have to wait till next year for those delicious waffles because they weren't home. There is also more time now to collect orders and more time to bake waffles! Admins can see all orders and search specific orders, and mark them complete or not.
 
 > Admins will also be able to add orders for other users but that isn't implemented yet.
-
-This project is part of the [Native Apps I](https://bamaflexweb.hogent.be/BMFUIDetailxOLOD.aspx?a=113418&b=1&c=1) course for the Bachelor of Applied Informatics at the Ghent University College [HoGent](https://www.hogent.be/en/) (Academic year 2019-2020).
+<!--
+This project is part of the [Native Apps I](https://bamaflexweb.hogent.be/BMFUIDetailxOLOD.aspx?a=113418&b=1&c=1) course for the Bachelor of Applied Informatics at the Ghent University College [HoGent](https://www.hogent.be/en/) (Academic year 2019-2020).-->
 
 ## Screenshots
 
